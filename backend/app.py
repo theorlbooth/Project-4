@@ -17,4 +17,5 @@ bcrypt = Bcrypt(app)
 from controllers import users
 
 app.register_blueprint(users.router, url_prefix="/api")
+app.register_blueprint(places.router, url_prefix="/api")
 
