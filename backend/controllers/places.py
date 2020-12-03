@@ -20,12 +20,12 @@ def get_single_place(id):
   place = Place.query.get(id)
 
   if not place:
-    return { 'message': 'Place not availabkle' }, 404
+    return { 'message': 'Place not available' }, 404
 
   return place_schema.jsonify(place), 200
 
 
-@router.route('/places', method=['POST'])
+@router.route('/places', methods=['POST'])
 def create():
   place_dictionary = request.get_json()
 

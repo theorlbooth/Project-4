@@ -1,5 +1,6 @@
 from app import app, db
 from models.user import User
+from models.place import Place
 
 with app.app_context():
   db.drop_all()
@@ -10,7 +11,6 @@ with app.app_context():
     email="sean@sean.com",
     password="sean"
   )
-
   sean.save()
 
   theo = User(
@@ -18,7 +18,6 @@ with app.app_context():
     email="theo@theo.com",
     password="theo"
   )
-
   theo.save()
 
   oxford_street = Place(
@@ -29,6 +28,7 @@ with app.app_context():
     place_id='Oxford_Street',
     score=9.98052217263237
   )
+  oxford_street.save()
 
   rules = Place(
     name='Rules',
@@ -38,7 +38,8 @@ with app.app_context():
     place_id='N__1598420155',
     score=6.05745148329591
   )
- 
+  rules.save()
+
   blackbushe_airport = Place(
     name='Blackbushe_Aiport',
     description='Blackbushe Airport is an operational general aviation airport in the civil parish of Yateley in the north-east corner of the English county of Hampshire. Built during the Second World War, Blackbushe is north of the A30 road between Camberley and Hook. It for a time straddled this road with traffic having to wait whilst airliners were towed across. The southside was used for aircraft maintenance, utilising wartime-built hangars. Today, only the part of the airfield section that lay north of the A30 remains in active use. The traditional name for the flat piece of land on which it is sited is Hartford Bridge Flats. The nearest towns are Yateley and Fleet. Blackbushe Aerodrome has a CAA Ordinary Licence (Number P693) that allows flights for the public transport of passengers or for flying instruction as authorised by the licensee (Blackbushe Airport Limited). The aerodrome is licensed for night use. It is one of several airfields eclipsed since 1958 by the growth of London Heathrow Airport and London Gatwick Airport. Blackbush was once a significant airport for passenger and cargo charter flights for the London area. Currently based aircraft include several corporate jets, two flying schools, a helicopter training facility, as well as Aerobility, a flying charity. The airport is open to the general public and is also popular for walks around its perimeter and to see the wildlife in Yateley Common and Castle Bottom National Nature reserve.',
@@ -47,6 +48,7 @@ with app.app_context():
     place_id='Blackbushe_Airport',
     score=0.500000000000001
   )
+  blackbushe_airport.save()
 
   british_museum = Place(
     name='British Museum',
@@ -56,7 +58,8 @@ with app.app_context():
     place_id='W__40405915',
     score=9.96045453652326
   )
-  
+  british_museum.save()
+
   print('Users created')
 
   print('Completed!')
