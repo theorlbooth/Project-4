@@ -38,4 +38,27 @@ def create():
 
   return place_schema.jsonify(place), 200
 
-  
+@router.route('/places/<int:id>', methods=['PUT'])
+def update_place(id):
+  existing_place = Place.query.get(id)
+
+  try:
+    place = place_schema.load(
+      request.get_json(),
+      instance = existing_place,
+      partial=True
+    )
+  except ValdiationError as e:
+    return { 'errors': e.messages, 'message': 'Something went wrong. ' }
+
+  place.save()
+
+  return place_schema.jsonify(place), 201
+
+@router.route('places/<int:id>', methods=['DELETE'])
+def remove(id):
+  place = Place.query.get(id)
+
+  place.remove()
+  return { 'message': f'Swimspot {id}-- deleted successfully' }
+
