@@ -8,8 +8,7 @@ class Place(db.Model, BaseModel):
 
   name = db.Column(db.String(60), nullable=False)
   lat = db.Column(db.Float, nullable=False)
-  lon = db.Column(db.Float, nullable=False)
-  location = db.Column(db.PickleType, nullable=False)
+  long = db.Column(db.Float, nullable=False)
   picture = db.Column(db.Text, nullable=True)
   description = db.Column(db.Text, nullable=True)
   place_id = db.Column(db.String(40), nullable=False, unique=True)
