@@ -1,6 +1,6 @@
 from datetime import *
 from marshmallow import fields
-from flask_marshmallow import marshmallow
+from flask_marshmallow import Marshmallow
 
 class BaseSchema:
   
