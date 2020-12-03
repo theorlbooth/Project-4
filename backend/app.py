@@ -8,6 +8,7 @@ app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = db_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
 
@@ -16,4 +17,5 @@ bcrypt = Bcrypt(app)
 from controllers import users
 
 app.register_blueprint(users.router, url_prefix="/api")
+app.register_blueprint(places.router, url_prefix="/api")
 
