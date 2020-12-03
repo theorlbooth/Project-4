@@ -1,6 +1,7 @@
 from app import app, db
 from models.user import User
 from models.place import Place
+from models.comment import Comment
 
 with app.app_context():
   db.drop_all()
@@ -20,6 +21,8 @@ with app.app_context():
   )
   theo.save()
 
+  print('Users created')
+
   oxford_street = Place(
     name='Oxford Street',
     description='Oxford Street is a major road in the City of Westminster in the West End of London, running from Tottenham Court Road to Marble Arch via Oxford Circus. It is Europe\'s busiest shopping street, with around half a million daily visitors, and as of 2012 had approximately 300 shops. It is designated as part of the A40, a major road between London and Fishguard, though it is not signed as such, and traffic is regularly restricted to buses and taxis.\nThe road was originally part of the Via Trinobantina, a Roman road between Essex and Hampshire via London. It was known as Tyburn Road through the Middle Ages when it was notorious for public hangings of prisoners at Tyburn Gallows. It became known as Oxford Road and then Oxford Street in the 18th century, and began to change from residential to commercial and retail use by the late 19th century, attracting street traders, confidence tricksters and prostitution. The first department stores in the UK opened in the early 20th century, including Selfridges, John Lewis & Partners and HMV. Unlike nearby shopping streets such as Bond Street, it has retained an element of downmarket trading alongside more prestigious retail stores. The street suffered heavy bombing during World War II, and several longstanding stores including John Lewis were completely destroyed and rebuilt from scratch.\nDespite competition from other shopping centres such as Westfield Stratford City and the Brent Cross Shopping Centre, Oxford Street remains in high demand as a retail location, with several chains having their flagship stores on the street, and has a number of listed buildings. The annual switching on of Christmas lights by a celebrity has been a popular event since 1959. As a popular retail area and main thoroughfare for London buses and taxis, Oxford Street has suffered from traffic congestion, pedestrian congestion, a poor safety record and pollution. Various traffic management schemes have been implemented by Transport for London (TfL), including a ban on private vehicles during daytime hours on weekdays and Saturdays, and improved pedestrian crossings.',
@@ -27,7 +30,8 @@ with app.app_context():
     long=-0.142025,
     picture='https://upload.wikimedia.org/wikipedia/en/a/a6/Oxford_Street_1882.jpg',
     place_id='Oxford_Street',
-    score=9.98052217263237
+    score=9.98052217263237, 
+    user_id=1
   )
   oxford_street.save()
 
@@ -38,7 +42,8 @@ with app.app_context():
     long=-0.12319120453024995,
     picture='https://upload.wikimedia.org/wikipedia/commons/e/ee/Rules%2C_London%27s_oldest_restaurant._-_geograph.org.uk_-_510375.jpg',
     place_id='N__1598420155',
-    score=6.05745148329591
+    score=6.05745148329591, 
+    user_id=1
   )
   rules.save()
 
@@ -49,7 +54,8 @@ with app.app_context():
     long=-0.8475,
     picture='https://upload.wikimedia.org/wikipedia/commons/9/95/Airwork_Hermes_IVA_at_Blackbushe.jpg',
     place_id='Blackbushe_Airport',
-    score=0.500000000000001
+    score=0.500000000000001, 
+    user_id=2
   )
   blackbushe_airport.save()
 
@@ -60,10 +66,29 @@ with app.app_context():
     long=-0.1246918,
     picture='https://upload.wikimedia.org/wikipedia/commons/8/86/British_Museum_%28aerial%29.jpg',
     place_id='W__40405915',
-    score=9.96045453652326
+    score=9.96045453652326, 
+    user_id=2
   )
   british_museum.save()
 
-  print('Users created')
+  print('Places created')
+
+  comment_1 = Comment(
+    content='This is a great museum',
+    place=british_museum,
+    rating=9.8784,
+    user_id=1
+  )
+  comment_1.save()
+
+  comment_2 = Comment(
+    content='This is an overpriced cafe',
+    place=rules,
+    rating=5.556,
+    user_id=2
+  )
+  comment_2.save()
+  
+  print('Comments created')
 
   print('Completed!')
