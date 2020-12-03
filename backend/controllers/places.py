@@ -15,7 +15,7 @@ def index():
   print(places)
   return place_schema.jsonify(places, many=True), 200
 
-@router.route('/places<int:id>', methods=['GET'])
+@router.route('/places/<int:id>', methods=['GET'])
 def get_single_place(id):
   place = Place.query.get(id)
 
