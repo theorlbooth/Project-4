@@ -10,15 +10,10 @@ from serializers.folder_user import FolderUserSchema
 from serializers.folder import FolderSchema
 from marshmallow import ValidationError
 from middleware.secure_route import secure_route
-<<<<<<< HEAD
-from models.folder_place import places_folder_join
-
-=======
 from marshmallow import fields
 from sqlalchemy.sql import text
 
 import requests
->>>>>>> development
 
 place_schema = PlaceSchema()
 comment_schema = CommentSchema()
@@ -197,11 +192,18 @@ def delete_place_from_folder(folder_id, place_id):
   folder.save()
   return populate_folder.jsonify(folder), 200
   
+
 # * Add place to folder ------------
 @router.route('/folders/<int:folder_id>/<int:place_id>', methods=['POST'])
 def add_place_to_folder(folder_id, place_id):
   folder = Folder.query.get(folder_id)
-  
+  new_folder = []
+  for place in folder.places:
+    if place.id == place_id:
+      new_folder = folder
+    if place.id != place_id:
+      new_folder = folder + place
+  print(new_folder)  
 
 
 
