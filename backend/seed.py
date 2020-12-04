@@ -30,10 +30,14 @@ with app.app_context():
   amsterdam = Folder(name='Amsterdam')
   amsterdam.save()
 
+  paris = Folder(name='Paris')
+  paris.save()
+
   sean = User(
     username="sean",
     email="sean@sean.com",
-    password="sean"
+    password="sean",
+    folder=[paris]
   )
   sean.save()
 
@@ -81,7 +85,8 @@ with app.app_context():
     picture='https://upload.wikimedia.org/wikipedia/commons/9/95/Airwork_Hermes_IVA_at_Blackbushe.jpg',
     place_id='Blackbushe_Airport',
     score=0.500000000000001, 
-    user_id=2
+    user_id=2,
+    folder=[paris]
   )
   blackbushe_airport.save()
 
@@ -93,7 +98,8 @@ with app.app_context():
     picture='https://upload.wikimedia.org/wikipedia/commons/8/86/British_Museum_%28aerial%29.jpg',
     place_id='W__40405915',
     score=9.96045453652326, 
-    user_id=2
+    user_id=2,
+    folder=[paris]
   )
   british_museum.save()
 

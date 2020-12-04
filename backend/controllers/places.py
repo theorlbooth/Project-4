@@ -196,76 +196,86 @@ def delete_place_from_folder(folder_id, place_id):
 # * Add place to folder ------------
 @router.route('/folders/<int:folder_id>/<int:place_id>', methods=['POST'])
 def add_place_to_folder(folder_id, place_id):
+  place = Place.query.get(place_id)
   folder = Folder.query.get(folder_id)
+  id_list = []
   new_folder = []
-  for place in folder.places:
-    if place.id == place_id:
-      new_folder = folder
-    if place.id != place_id:
-      new_folder = folder + place
-  print(new_folder)  
+  for x in folder.places:
+      id_list.append(x.id)
+      print(id_list)
+  if place_id in id_list:
+    print('already in folder')
+    new_folder = folder.places
+  else:
+    print('not in folder')
+    new_folder = folder.places + [place]
+
+  print(new_folder)
+  folder.places = new_folder  
+  folder.save()
+  return populate_folder.jsonify(folder)
 
 
 
-#  ! SINGLE PLACE FRONT END REQUEST ---
-#  * If place exists in DB, simple get request
-#  * Else, get from external API and POST to DB
+# #  ! SINGLE PLACE FRONT END REQUEST ---
+# #  * If place exists in DB, simple get request
+# #  * Else, get from external API and POST to DB
 
-# * Get single place ------------
-@router.route('/places/<place_id>', methods=['GET'])
-@secure_route
-def get_single_place_id('place_id' == place_id):
-  place = Place.query.filter(place_id)
-  api_place_id = 'N__616480817'
+# # * Get single place ------------
+# @router.route('/places/<place_id>', methods=['GET'])
+# @secure_route
+# def get_single_place_id('place_id' == place_id):
+#   place = Place.query.filter(place_id)
+#   api_place_id = 'N__616480817'
 
-  if not place:
-    #  request from external API
-    resp = requests.get(f'https://www.triposo.com/api/20201111/poi.json?id={api_place_id}&account=13H4CGCD&token=q70ac3dye4rnb1gsnvovoaoic854jjy1')
-    print(resp)
+#   if not place:
+#     #  request from external API
+#     resp = requests.get(f'https://www.triposo.com/api/20201111/poi.json?id={api_place_id}&account=13H4CGCD&token=q70ac3dye4rnb1gsnvovoaoic854jjy1')
+#     print(resp)
 
-    if not resp:
-      return { 'message': 'shite' }, 404
+#     if not resp:
+#       return { 'message': 'shite' }, 404
 
-    # getting info from response... 
-    results_dict = resp.json()
-    results_list = results_dict['results']
-    place_dict = results_list[0]
-    images = place_dict['images']
-    image_info = images[0]
-    latlon = place_dict['coordinates']
+#     # getting info from response... 
+#     results_dict = resp.json()
+#     results_list = results_dict['results']
+#     place_dict = results_list[0]
+#     images = place_dict['images']
+#     image_info = images[0]
+#     latlon = place_dict['coordinates']
     
-    name = place_dict['name']
-    place_id = place_dict['id']
-    latitude = latlon['latitude']
-    longitude = latlon['longitude']
-    score = place_dict['score']
-    picture = image_info['source_url']
-    description = place_dict['snippet']
+#     name = place_dict['name']
+#     place_id = place_dict['id']
+#     latitude = latlon['latitude']
+#     longitude = latlon['longitude']
+#     score = place_dict['score']
+#     picture = image_info['source_url']
+#     description = place_dict['snippet']
     
-    user_id = g.current_user.id
+#     user_id = g.current_user.id
     
-    print(' ')
-    place_dictionary = {
-      'name': name,
-      'place_id': api_place_id,
-      'lat': latitude,
-      'long': longitude,
-      'picture': picture,
-      'description': description,
-      'score': score,
-      'user_id': user_id
-    }
-    print(place_dictionary)
+#     print(' ')
+#     place_dictionary = {
+#       'name': name,
+#       'place_id': api_place_id,
+#       'lat': latitude,
+#       'long': longitude,
+#       'picture': picture,
+#       'description': description,
+#       'score': score,
+#       'user_id': user_id
+#     }
+#     print(place_dictionary)
 
-    try:
-      place = place_schema.load(place_dictionary)
+#     try:
+#       place = place_schema.load(place_dictionary)
 
-    except ValidationError as e:
-      return { 'errors': e.messages, 'message': 'hmmm' }
+#     except ValidationError as e:
+#       return { 'errors': e.messages, 'message': 'hmmm' }
 
-    place.save()
+#     place.save()
 
 
-  return place_schema.jsonify(place), 200
+#   return place_schema.jsonify(place), 200
 
 
