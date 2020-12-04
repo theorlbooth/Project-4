@@ -2,12 +2,31 @@ from app import app, db
 from models.user import User
 from models.place import Place
 from models.comment import Comment
+from models.country import Country
+
+import requests
 from models.folder import Folder
 
 with app.app_context():
   db.drop_all()
   db.create_all()
 
+  # resp = requests.get('https://restcountries.eu/rest/v2/all')
+  # country_list = resp.json()
+  # for country in country_list:
+  #   latlong = country['latlng']
+    
+  
+  #   country['name'] = Country(
+  #     name=country['name']
+  #     lat=latlong[0],
+  #     long=latlong[1],
+  #     region=country['region'],
+  #     subregion=country['subregion'],
+  #     alpha2code=country['alpha2Code']
+  #   )
+  #   country['name'].save()
+# !each country is not declared as variable/item...
   amsterdam = Folder(name='Amsterdam')
   amsterdam.save()
 

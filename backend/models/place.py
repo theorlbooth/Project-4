@@ -14,7 +14,7 @@ class Place(db.Model, BaseModel):
   long = db.Column(db.Float, nullable=False)
   picture = db.Column(db.Text, nullable=True)
   description = db.Column(db.Text, nullable=True)
-  place_id = db.Column(db.String(40), nullable=False, unique=True)
+  place_id = db.Column(db.Text, nullable=False, unique=True)
   score = db.Column(db.Float, nullable=True)
 
   folder = db.relationship('Folder', secondary=places_folder_join, backref='places', lazy='dynamic')

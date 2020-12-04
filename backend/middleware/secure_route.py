@@ -26,7 +26,6 @@ def secure_route(func):
     except Exception as e:
         return e, 401
         
-
     return func(*args, **kwargs)
 
   return wrapper
