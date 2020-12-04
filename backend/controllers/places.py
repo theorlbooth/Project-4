@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, g
 from models.place import Place
 from models.comment import Comment
 from serializers.place import PlaceSchema
@@ -6,6 +6,10 @@ from serializers.comment import CommentSchema
 from serializers.populate_place import PopulatePlaceSchema
 from marshmallow import ValidationError
 from middleware.secure_route import secure_route
+from marshmallow import fields
+from sqlalchemy.sql import text
+
+import requests
 
 place_schema = PlaceSchema()
 comment_schema = CommentSchema()
@@ -14,11 +18,11 @@ populate_place = PopulatePlaceSchema()
 
 router = Blueprint(__name__, 'places')
 
-# # * Get all places ------------
-# @router.route('/places', methods=['GET'])
-# def index():
-#   places = Place.query.all()
-#   return place_schema.jsonify(places, many=True), 200
+# * Get all places ------------
+@router.route('/places', methods=['GET'])
+def index():
+  places = Place.query.all()
+  return place_schema.jsonify(places, many=True), 200
 
 # * Get all places (populated) ------------
 @router.route('/places', methods=['GET'])
@@ -28,14 +32,14 @@ def pop_index():
 
 
 # * Get single place ------------
-@router.route('/places/<int:id>', methods=['GET'])
-def get_single_place(id):
-  place = Place.query.get(id)
+# @router.route('/places/<int:id>', methods=['GET'])
+# def get_single_place(id):
+#   place = Place.query.get(id)
 
-  if not place:
-    return { 'message': 'Place not available' }, 404
+#   if not place:
+#     return { 'message': 'Place not available' }, 404
 
-  return place_schema.jsonify(place), 200
+#   return place_schema.jsonify(place), 200
 
 
 # * Post single place ------------
@@ -131,3 +135,68 @@ def delete_comment(id):
 
   comment.remove()
   return { 'message': f'Comment {id} successfully deleted' }
+
+
+
+#  ! SINGLE PLACE FRONT END REQUEST ---
+#  * If place exists in DB, simple get request
+#  * Else, get from external API and POST to DB
+
+# * Get single place ------------
+@router.route('/places/<place_id>', methods=['GET'])
+@secure_route
+def get_single_place_id('place_id' == place_id):
+  place = Place.query.filter(place_id)
+  api_place_id = 'N__616480817'
+
+  if not place:
+    #  request from external API
+    resp = requests.get(f'https://www.triposo.com/api/20201111/poi.json?id={api_place_id}&account=13H4CGCD&token=q70ac3dye4rnb1gsnvovoaoic854jjy1')
+    print(resp)
+
+    if not resp:
+      return { 'message': 'shite' }, 404
+
+    # getting info from response... 
+    results_dict = resp.json()
+    results_list = results_dict['results']
+    place_dict = results_list[0]
+    images = place_dict['images']
+    image_info = images[0]
+    latlon = place_dict['coordinates']
+    
+    name = place_dict['name']
+    place_id = place_dict['id']
+    latitude = latlon['latitude']
+    longitude = latlon['longitude']
+    score = place_dict['score']
+    picture = image_info['source_url']
+    description = place_dict['snippet']
+    
+    user_id = g.current_user.id
+    
+    print(' ')
+    place_dictionary = {
+      'name': name,
+      'place_id': api_place_id,
+      'lat': latitude,
+      'long': longitude,
+      'picture': picture,
+      'description': description,
+      'score': score,
+      'user_id': user_id
+    }
+    print(place_dictionary)
+
+    try:
+      place = place_schema.load(place_dictionary)
+
+    except ValidationError as e:
+      return { 'errors': e.messages, 'message': 'hmmm' }
+
+    place.save()
+
+
+  return place_schema.jsonify(place), 200
+
+

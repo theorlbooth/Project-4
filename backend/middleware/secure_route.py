@@ -2,25 +2,20 @@ from flask import request, g
 import jwt
 from models.user import User
 from environment.config import secret
-# from functools import wraps
+from functools import wraps
 
 def secure_route(func):
-  # @wraps(func)
+  @wraps(func)
   def wrapper(*args, **kwargs):
     raw_token = request.headers['Authorization']
-    clean_token = raw_token.replace('Bearer', '')
-    print(clean_token)
+    clean_token = raw_token.replace('Bearer ', '')
 
     try:
-      print('does try work')
+      print(clean_token)
       payload = jwt.decode(clean_token, secret)
-      print('hmmm')
       user_id = payload['sub']
-      print('big hmmmmm')
       user = User.query.get(user_id)
-      print('user')
-      
-
+    
       if not user:
         return { 'message': 'Unauthorized1' }, 401
 
@@ -32,7 +27,6 @@ def secure_route(func):
     except Exception as e:
         return e, 401
         
-
     return func(*args, **kwargs)
 
   return wrapper
