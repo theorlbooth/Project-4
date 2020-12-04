@@ -11,18 +11,17 @@ def secure_route(func):
     clean_token = raw_token.replace('Bearer ', '')
 
     try:
-      print(clean_token)
       payload = jwt.decode(clean_token, secret)
       user_id = payload['sub']
       user = User.query.get(user_id)
-    
+      
       if not user:
-        return { 'message': 'Unauthorized1' }, 401
+        return { 'message': 'Unauthorized' }, 401
 
       g.current_user = user
 
     except jwt.ExpiredSignatureError:
-        return { 'message': 'Token has expired' }, 401
+      return { 'message': 'Token has expired' }, 401
     
     except Exception as e:
         return e, 401

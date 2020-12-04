@@ -103,6 +103,23 @@ def single_comment(id):
   return comment_schema.jsonify(comment), 200
 
 
+# * Post single comment ------------
+@router.route('/places/<int:place_id>/comments', methods=['POST'])
+@secure_route
+def add_comment(place_id):
+  comment_data = request.get_json()
+  comment_data['user_id']= g.current_user.id
+  place = Place.query.get(place_id)
+
+  if not place:
+    return { 'message': 'Place not available'}, 404
+  
+  comment = comment_schema.load(comment_data)
+  comment.place = place
+  comment.save()
+  return populate_place.jsonify(place), 200
+
+
 # * Put single comment ------------
 @router.route('/comments/<int:id>', methods=['PUT'])
 def put_comment(id):

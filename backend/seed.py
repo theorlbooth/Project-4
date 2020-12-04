@@ -5,6 +5,7 @@ from models.comment import Comment
 from models.country import Country
 
 import requests
+from models.folder import Folder
 
 with app.app_context():
   db.drop_all()
@@ -26,6 +27,8 @@ with app.app_context():
   #   )
   #   country['name'].save()
 # !each country is not declared as variable/item...
+  amsterdam = Folder(name='Amsterdam')
+  amsterdam.save()
 
   sean = User(
     username="sean",
@@ -37,7 +40,8 @@ with app.app_context():
   theo = User(
     username="theo",
     email="theo@theo.com",
-    password="theo"
+    password="theo",
+    folder=[amsterdam]
   )
   theo.save()
 
