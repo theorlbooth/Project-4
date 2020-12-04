@@ -190,3 +190,8 @@ def delete_place_from_folder(folder_id, place_id):
   folder.save()
   return populate_folder.jsonify(folder), 200
   
+# * Add place to folder ------------
+@router.route('/folders/<int:folder_id>/<int:place_id>', methods=['POST'])
+def add_place_to_folder(folder_id, place_id):
+  folder = Folder.query.get(folder_id)
+  
