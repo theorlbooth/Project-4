@@ -15,6 +15,7 @@ psycopg2-binary = "*"
 flask-bcrypt = "*"
 pyjwt = "*"
 marshmallow = "*"
+requests = "*"
 
 [requires]
 python_version = "3.9"

@@ -2,6 +2,7 @@ from flask import Blueprint, request
 from models.place import Place
 from serializers.place import PlaceSchema
 from marshmallow import ValidationError
+from middleware.secure_route import secure_route
 
 place_schema = PlaceSchema()
 # populate_place = PopulatePlaceSchema() 
@@ -39,6 +40,7 @@ def create():
   return place_schema.jsonify(place), 200
 
 @router.route('/places/<int:id>', methods=['PUT'])
+@secure_route
 def update_place(id):
   existing_place = Place.query.get(id)
 
