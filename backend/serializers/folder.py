@@ -6,5 +6,6 @@ from models.folder import Folder
 class FolderSchema(ma.SQLAlchemyAutoSchema, BaseSchema):
 
   class Meta:
+    
     model = Folder
     load_instance = True

@@ -36,7 +36,8 @@ with app.app_context():
     picture='https://upload.wikimedia.org/wikipedia/en/a/a6/Oxford_Street_1882.jpg',
     place_id='Oxford_Street',
     score=9.98052217263237, 
-    user_id=1
+    user_id=1,
+    folder=[amsterdam]
   )
   oxford_street.save()
 
@@ -48,7 +49,8 @@ with app.app_context():
     picture='https://upload.wikimedia.org/wikipedia/commons/e/ee/Rules%2C_London%27s_oldest_restaurant._-_geograph.org.uk_-_510375.jpg',
     place_id='N__1598420155',
     score=6.05745148329591, 
-    user_id=1
+    user_id=1,
+    folder=[amsterdam]
   )
   rules.save()
 

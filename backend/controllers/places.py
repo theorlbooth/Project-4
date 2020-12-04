@@ -1,15 +1,23 @@
 from flask import Blueprint, request, g
 from models.place import Place
 from models.comment import Comment
+from models.folder import Folder
 from serializers.place import PlaceSchema
 from serializers.comment import CommentSchema
 from serializers.populate_place import PopulatePlaceSchema
+from serializers.populate_folder import PopulateFolderSchema
+from serializers.folder_user import FolderUserSchema
+from serializers.folder import FolderSchema
 from marshmallow import ValidationError
 from middleware.secure_route import secure_route
+from models.folder_place import places_folder_join
+
 
 place_schema = PlaceSchema()
 comment_schema = CommentSchema()
 populate_place = PopulatePlaceSchema()
+folder_schema = FolderSchema()
+populate_folder = PopulateFolderSchema()
 
 
 router = Blueprint(__name__, 'places')
@@ -144,7 +152,41 @@ def delete_comment(id):
   comment = Comment.query.get(id)
 
   if not comment:
-    return { 'message': 'Comment not available'}, 404
+    return { 'message': 'Comment not available' }, 404
 
   comment.remove()
   return { 'message': f'Comment {id} successfully deleted' }
+
+
+# * Get folder ------------
+@router.route('/folders/<int:id>', methods=['GET'])
+def get_folder(id):
+  folder = Folder.query.get(id)
+
+  if not folder:
+    return { 'message': 'Folder not available' }, 404
+
+  return populate_folder.jsonify(folder), 200
+
+
+# * Delete folder ------------
+@router.route('/folders/<int:id>', methods=['DELETE'])
+def delete_folder(id):
+  folder = Folder.query.get(id)
+
+  if not folder:
+    return { 'message': 'Folder not available' }, 404
+
+  folder.remove()
+  return { 'message': f'Folder {id} successfully deleted' }
+
+
+# * Delete place from folder ------------
+@router.route('/folders/<int:folder_id>/<int:place_id>', methods=['DELETE'])
+def delete_place_from_folder(folder_id, place_id):
+  folder = Folder.query.get(folder_id)
+  new_folder = [place for place in folder.places if place.id != place_id]
+  folder.places = new_folder
+  folder.save()
+  return populate_folder.jsonify(folder), 200
+  
