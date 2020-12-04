@@ -11,4 +11,5 @@ class UserSchema(ma.SQLAlchemyAutoSchema, BaseSchema):
     exclude = ('password_hash',)
     load_only = ('email', 'password')
 
+  folder = fields.Nested('FolderSchema', many=True)
   password = fields.String(required=True)

@@ -2,10 +2,14 @@ from app import app, db
 from models.user import User
 from models.place import Place
 from models.comment import Comment
+from models.folder import Folder
 
 with app.app_context():
   db.drop_all()
   db.create_all()
+
+  amsterdam = Folder(name='Amsterdam')
+  amsterdam.save()
 
   sean = User(
     username="sean",
@@ -17,7 +21,8 @@ with app.app_context():
   theo = User(
     username="theo",
     email="theo@theo.com",
-    password="theo"
+    password="theo",
+    folder=[amsterdam]
   )
   theo.save()
 

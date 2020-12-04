@@ -6,5 +6,8 @@ from models.comment import Comment
 class CommentSchema(ma.SQLAlchemyAutoSchema, BaseSchema):
 
   class Meta:
+    
     model = Comment
     load_instance = True
+
+  user_id = fields.Integer()
