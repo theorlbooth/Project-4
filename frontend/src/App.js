@@ -4,14 +4,14 @@ import '../styles/style.scss'
 import bulma from 'bulma'
 
 import NavBar from './components/Navbar'
-
+import Login from './components/Login'
 
 const App = () => {
   return <>
   <BrowserRouter>
     <NavBar />
     <Switch>
-
+      <Route exact path="/login" component={Login}></Route>
     </Switch>
   </BrowserRouter>
   </>
