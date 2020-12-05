@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "serve:frontend": "webpack-dev-server --mode=development",
-    "serve:backend": "pipenv run flask run"
+    "frontend": "webpack-dev-server --mode=development",
+    "backend": "pipenv run flask run",
+    "seed": "pipenv run python backend/seed.py"
   },
   "author": "",
   "license": "ISC",
@@ -26,6 +27,7 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
+    "bulma": "^0.9.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0"

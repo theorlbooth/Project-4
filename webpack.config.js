@@ -5,16 +5,16 @@ const Dotenv = require('dotenv-webpack')
 const env = process.env.NODE_ENV === 'production' ? (
   new webpack.EnvironmentPlugin({ ...process.env })
 ) : (
-    new Dotenv()
-  )
+  new Dotenv()
+)
 
 module.exports = () => {
   return {
-    entry: './frontend/index.js',
+    entry: './frontend/src/index.js',
     output: {
       filename: 'bundle.js',
       path: path.resolve('backend/dist'),
-      publicPath: '/',
+      publicPath: '/'
     },
     devtool: 'source-map',
     module: {
@@ -43,7 +43,7 @@ module.exports = () => {
       new Dotenv(),
       new webpack.HotModuleReplacementPlugin(),
       new HtmlWebpackPlugin({
-        template: 'frontend/index.html',
+        template: 'frontend/src/index.html',
         filename: 'index.html',
         inject: 'body'
       }),
