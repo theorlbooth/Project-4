@@ -50,9 +50,10 @@ def pop_index():
 
 # * Post single place ------------
 @router.route('/places', methods=['POST'])
+@secure_route
 def create():
   place_dictionary = request.get_json()
-
+  place_dictionary['user_id'] = g.current_user.id
   try:
     place = place_schema.load(place_dictionary)
   except ValidationError as e:
@@ -60,7 +61,7 @@ def create():
 
   place.save()
 
-  return place_schema.jsonify(place), 200
+  return populate_place.jsonify(place), 200
 
 # * Put single place ------------
 @router.route('/places/<int:id>', methods=['PUT'])
@@ -84,6 +85,7 @@ def update_place(id):
 
 # * Delete single place ------------
 @router.route('/places/<int:id>', methods=['DELETE'])
+@secure_route
 def remove(id):
   place = Place.query.get(id)
 
@@ -93,6 +95,7 @@ def remove(id):
 
 # * Get all comments ------------
 @router.route('/comments', methods=['GET'])
+@secure_route
 def all_comments():
   comments = Comment.query.all()
   return comment_schema.jsonify(comments, many=True)
@@ -100,6 +103,7 @@ def all_comments():
 
 # * Get single comment ------------
 @router.route('/comments/<int:id>', methods=['GET'])
+@secure_route
 def single_comment(id):
   comment = Comment.query.get(id)
   
@@ -128,6 +132,7 @@ def add_comment(place_id):
 
 # * Put single comment ------------
 @router.route('/comments/<int:id>', methods=['PUT'])
+@secure_route
 def put_comment(id):
   existing_comment = Comment.query.get(id)
 
@@ -150,6 +155,7 @@ def put_comment(id):
 
 # * Delete Single Comment ------------
 @router.route('/comments/<int:id>', methods=['DELETE'])
+@secure_route
 def delete_comment(id):
   comment = Comment.query.get(id)
 
@@ -160,8 +166,23 @@ def delete_comment(id):
   return { 'message': f'Comment {id} successfully deleted' }
 
 
+# * Create folder ------------
+@router.route('/folders', methods=['POST'])
+@secure_route
+def create_folder():
+  folder_data = request.get_json()
+  user = g.current_user
+  user_folder = g.current_user.folder
+  folder = folder_schema.load(folder_data)
+  user_folder.append(folder)
+  user.save()
+  folder.save()
+  return folder_schema.jsonify(folder), 200
+
+
 # * Get folder ------------
 @router.route('/folders/<int:id>', methods=['GET'])
+@secure_route
 def get_folder(id):
   folder = Folder.query.get(id)
 
@@ -171,8 +192,32 @@ def get_folder(id):
   return populate_folder.jsonify(folder), 200
 
 
+# * Put Folder ------------
+@router.route('/folders/<int:id>', methods=['PUT'])
+@secure_route
+def put_folder(id):
+  existing_folder = Folder.query.get(id)
+
+  if not existing_folder:
+    return { 'message': 'Folder not available' }, 404
+
+  try:
+    folder = folder_schema.load(
+      request.get_json(),
+      instance = existing_folder,
+      partial = True
+    )
+
+  except ValidationError as e:
+    return { 'errors': e.messages, 'message': 'Something went wrong' }
+
+  folder.save()
+  return folder_schema.jsonify(folder), 201
+
+
 # * Delete folder ------------
 @router.route('/folders/<int:id>', methods=['DELETE'])
+@secure_route
 def delete_folder(id):
   folder = Folder.query.get(id)
 
@@ -185,6 +230,7 @@ def delete_folder(id):
 
 # * Delete place from folder ------------
 @router.route('/folders/<int:folder_id>/<int:place_id>', methods=['DELETE'])
+@secure_route
 def delete_place_from_folder(folder_id, place_id):
   folder = Folder.query.get(folder_id)
   new_folder = [place for place in folder.places if place.id != place_id]
@@ -195,6 +241,7 @@ def delete_place_from_folder(folder_id, place_id):
 
 # * Add place to folder ------------
 @router.route('/folders/<int:folder_id>/<int:place_id>', methods=['POST'])
+@secure_route
 def add_place_to_folder(folder_id, place_id):
   place = Place.query.get(place_id)
   folder = Folder.query.get(folder_id)

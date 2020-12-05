@@ -9,3 +9,4 @@ class FolderSchema(ma.SQLAlchemyAutoSchema, BaseSchema):
     
     model = Folder
     load_instance = True
+  

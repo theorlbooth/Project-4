@@ -6,3 +6,5 @@ class Folder(db.Model, BaseModel):
   __tablename__ = 'folders'
 
   name = db.Column(db.String(40), nullable=False)
+
+  
