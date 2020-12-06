@@ -38,29 +38,31 @@ const Login = (props) => {
   }
 
   return <>
-    <form className="form" onSubmit={handleSubmit}>
-      <div className="field">
-        <label className="label">Email:</label>
-        <div className="control">
-          <input className="input" type="text" placeholder="Email" onChange={handleChange} value={formData.email} name="email" />
+    <div className="register">
+      <form className="form" onSubmit={handleSubmit}>
+        <div className="field">
+          <label className="label">Email:</label>
+          <div className="control">
+            <input className="input" type="text" placeholder="Email" onChange={handleChange} value={formData.email} name="email" />
+          </div>
         </div>
-      </div>
-      <div className="field">
-        <label className="label">Password:</label>
-        <div className="control">
-          <input className="input" type="text" placeholder="Password" onChange={handleChange} value={formData.password} name="password" />
-          {errors && <p style={{ color: 'red' }}>{errors}</p>}
+        <div className="field">
+          <label className="label">Password:</label>
+          <div className="control">
+            <input className="input" type="text" placeholder="Password" onChange={handleChange} value={formData.password} name="password" />
+            {errors && <p style={{ color: 'red' }}>{errors}</p>}
+          </div>
         </div>
-      </div>
-      <div className="login-buttons">
-        <div className="control button-flex">
-          <button className="button is-black">Login</button>
+        <div className="login-buttons">
+          <div className="control button-flex">
+            <button className="button is-black">Login</button>
+          </div>
+          <div className="control button-flex">
+            <Link className="button is-danger" to={'/register'}>Register</Link>
+          </div>
         </div>
-        <div className="control button-flex">
-          <Link className="button is-danger" to={'/register'}>Register</Link>
-        </div>
-      </div>
-    </form>
+      </form>
+    </div>
   </>
 
 }
