@@ -5,6 +5,7 @@ import bulma from 'bulma'
 
 import NavBar from './components/Navbar'
 import Login from './components/Login'
+import Register from './components/Register'
 
 const App = () => {
   return <>
@@ -12,6 +13,7 @@ const App = () => {
     <NavBar />
     <Switch>
       <Route exact path="/login" component={Login}></Route>
+      <Route exact path="/register" component={Register}></Route>
     </Switch>
   </BrowserRouter>
   </>
