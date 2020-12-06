@@ -6,7 +6,7 @@ from sqlalchemy.ext.hybrid import hybrid_property
 from datetime import *
 import jwt
 from environment.config import secret
-
+from marshmallow import fields
 
 class User(db.Model, BaseModel):
 
@@ -15,7 +15,7 @@ class User(db.Model, BaseModel):
   username = db.Column(db.String(15), nullable=False, unique=True)
   email = db.Column(db.String(128), nullable=False, unique=True)
   password_hash = db.Column(db.String(128), nullable=False)
-
+  # password_confirmation = fields.String(required=False)
   folder = db.relationship('Folder', secondary=users_folder_join, backref='users')
 
 

@@ -7,8 +7,8 @@ const Register = (props) => {
   const [formData, updateFormData] = useState({
     username: '',
     email: '',
-    password: ''
-    // passwordConfirmation: ''
+    password: '',
+    password_confirmation: ''
   })
 
   const [errors, updateErrors] = useState({
@@ -79,14 +79,14 @@ const Register = (props) => {
               {errors}</p>} */}
           </div>
         </div>
-        {/* <div className="field">
+        <div className="field">
           <label className="label">Password Confirmation:</label>
           <div className="control">
             <input className="input" type="password" placeholder="Confirm password" onChange={handleChange} value={formData.passwordConfirmation} name="passwordConfirmation" />
             {errors.passwordConfirmation && <p style={{ color: 'red' }}>
               Passwords do not match</p>}
           </div>
-        </div> */}
+        </div>
         <div className="login-buttons">
           <div className="control buttonflex">
             <button className="button is-black">Submit</button>
