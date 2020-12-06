@@ -10,9 +10,20 @@ router = Blueprint(__name__, 'users')
 @router.route('/register', methods=['POST'])
 def register():
   request_body = request.get_json()
-  user = user_schema.load(request_body)
-  user.save()
-  return user_schema.jsonify(user), 200
+
+  email = User.query.filter_by(email=request_body['email']).first()
+  username = User.query.filter_by(username=request_body['username']).first()
+  if username and email:
+    return { 'errors' : {'username':'Username in use', 'email': 'Email in use'} }
+  elif email:
+    return { 'errors' : {'email': 'Email in use'} }
+  elif username:
+    return { 'errors' : {'username':'Username in use'} }
+
+  new_user = user_schema.load(request_body)
+  new_user.save()
+  return user_schema.jsonify(new_user), 200
+
 
 @router.route('/login', methods=['POST'])
 def login():
