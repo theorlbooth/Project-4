@@ -12,6 +12,7 @@ const App = () => {
   <BrowserRouter>
     <NavBar />
     <Switch>
+      <Route exact path="/" component={Home}></Route>
       <Route exact path="/login" component={Login}></Route>
     </Switch>
   </BrowserRouter>
