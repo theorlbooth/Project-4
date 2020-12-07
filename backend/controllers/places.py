@@ -13,7 +13,15 @@ from middleware.secure_route import secure_route
 from marshmallow import fields
 from sqlalchemy.sql import text
 
+
 import requests
+
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
+TRIPOSO_API_KEY = os.getenv('TRIPOSO_API_KEY')
+TRIPOSO_ACCOUNT = os.getenv('TRIPOSO_ACCOUNT')
 
 place_schema = PlaceSchema()
 comment_schema = CommentSchema()
@@ -276,7 +284,7 @@ def get_single_place_id(id):
   if not place:
 
     #  request from external API
-    resp = requests.get(f'https://www.triposo.com/api/20201111/poi.json?id={id}&fields=id,name,coordinates,images,score,snippet,location_id,tag_labels&account=13H4CGCD&token=q70ac3dye4rnb1gsnvovoaoic854jjy1')
+    resp = requests.get(f'https://www.triposo.com/api/20201111/poi.json?id={id}&fields=id,name,coordinates,images,score,snippet,location_id,tag_labels&account={TRIPOSO_ACCOUNT}&token={TRIPOSO_API_KEY}')
 
     if not resp:
       return { 'message': 'shite' }, 404
