@@ -8,6 +8,8 @@ import Login from './components/Login'
 import Home from './components/Home'
 import Register from './components/Register'
 import Explore from './components/Explore'
+import Country from './components/Country'
+
 
 const App = () => {
   return <>
@@ -18,6 +20,7 @@ const App = () => {
       <Route exact path="/explore" component={Explore}></Route>
       <Route exact path="/login" component={Login}></Route>
       <Route exact path="/register" component={Register}></Route>
+      <Route exact path="/country/:countrycode" component={Country}></Route>
     </Switch>
   </BrowserRouter>
   </>
