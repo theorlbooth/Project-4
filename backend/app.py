@@ -18,9 +18,11 @@ from controllers import users
 from controllers import places
 from controllers import countries
 from controllers import countries_info
+from controllers import cities
 
 app.register_blueprint(users.router, url_prefix="/api")
 app.register_blueprint(places.router, url_prefix="/api")
 app.register_blueprint(countries.router, url_prefix="/api")
 app.register_blueprint(countries_info.router, url_prefix="/api")
+app.register_blueprint(cities.router, url_prefix="/api")
 

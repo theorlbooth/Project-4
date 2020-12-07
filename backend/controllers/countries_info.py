@@ -5,6 +5,13 @@ from marshmallow import ValidationError
 
 import requests
 
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
+TRIPOSO_API_KEY = os.getenv('TRIPOSO_API_KEY')
+TRIPOSO_ACCOUNT = os.getenv('TRIPOSO_ACCOUNT')
+
 country_info_schema = CountryInfoSchema()
 
 router = Blueprint(__name__, 'countries_info')
@@ -13,7 +20,7 @@ router = Blueprint(__name__, 'countries_info')
 
 @router.route('/countries/<countrycode>', methods=['GET'])
 def get_country_data(countrycode):
-  resp = requests.get(f'https://www.triposo.com/api/20201111/location.json?tag_labels=country&countrycode={countrycode}&account=13H4CGCD&token=q70ac3dye4rnb1gsnvovoaoic854jjy1')
+  resp = requests.get(f'https://www.triposo.com/api/20201111/location.json?tag_labels=country&countrycode={countrycode}&account={TRIPOSO_ACCOUNT}&token={TRIPOSO_API_KEY}')
   
   results ={}
 
@@ -25,7 +32,7 @@ def get_country_data(countrycode):
   results_list = results_dict['results']
   results1 = results_list[0]
 
-  resp2 = requests.get(f'https://www.triposo.com/api/20201111/location.json?countrycode={countrycode}&tag_labels=city&count=10&fields=id,name,score,snippet&order_by=-score&account=13H4CGCD&token=q70ac3dye4rnb1gsnvovoaoic854jjy1')
+  resp2 = requests.get(f'https://www.triposo.com/api/20201111/location.json?countrycode={countrycode}&tag_labels=city&count=10&fields=id,name,score,snippet&order_by=-score&account={TRIPOSO_ACCOUNT}&token={TRIPOSO_API_KEY}')
   results2_dict = resp2.json()
   results2 = results2_dict['results']
  
