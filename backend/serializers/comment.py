@@ -11,3 +11,4 @@ class CommentSchema(ma.SQLAlchemyAutoSchema, BaseSchema):
     load_instance = True
 
   user_id = fields.Integer()
+  user = fields.Nested('UserSchema', many=False)

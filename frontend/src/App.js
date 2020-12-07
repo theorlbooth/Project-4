@@ -8,6 +8,9 @@ import Login from './components/Login'
 import Home from './components/Home'
 import Register from './components/Register'
 import Explore from './components/Explore'
+import SinglePlace from './components/SinglePlace'
+import User from './components/User'
+import SingleFolder from './components/SingleFolder'
 import Country from './components/Country'
 
 
@@ -20,6 +23,9 @@ const App = () => {
       <Route exact path="/explore" component={Explore}></Route>
       <Route exact path="/login" component={Login}></Route>
       <Route exact path="/register" component={Register}></Route>
+      <Route exact path="/places/:id" component={SinglePlace}></Route>
+      <Route exact path="/user/:id" component={User}></Route>
+      <Route exact path="/folders/:id" component={SingleFolder}></Route>
       <Route exact path="/country/:countrycode" component={Country}></Route>
     </Switch>
   </BrowserRouter>

@@ -24,11 +24,11 @@ populate_folder = PopulateFolderSchema()
 
 router = Blueprint(__name__, 'places')
 
-# * Get all places ------------
-@router.route('/places', methods=['GET'])
-def index():
-  places = Place.query.all()
-  return place_schema.jsonify(places, many=True), 200
+# # * Get all places ------------
+# @router.route('/places', methods=['GET'])
+# def index():
+#   places = Place.query.all()
+#   return place_schema.jsonify(places, many=True), 200
 
 # * Get all places (populated) ------------
 @router.route('/places', methods=['GET'])
@@ -38,14 +38,14 @@ def pop_index():
 
 
 # * Get single place ------------
-# @router.route('/places/<int:id>', methods=['GET'])
-# def get_single_place(id):
-#   place = Place.query.get(id)
+@router.route('/places/<int:id>', methods=['GET'])
+def get_single_place(id):
+  place = Place.query.get(id)
 
-#   if not place:
-#     return { 'message': 'Place not available' }, 404
+  if not place:
+    return { 'message': 'Place not available' }, 404
 
-#   return place_schema.jsonify(place), 200
+  return populate_place.jsonify(place), 200
 
 
 # * Post single place ------------
@@ -154,16 +154,16 @@ def put_comment(id):
 
 
 # * Delete Single Comment ------------
-@router.route('/comments/<int:id>', methods=['DELETE'])
+@router.route('/places/<int:place_id>/comments/<int:comment_id>', methods=['DELETE'])
 @secure_route
-def delete_comment(id):
-  comment = Comment.query.get(id)
-
+def delete_comment(place_id, comment_id):
+  comment = Comment.query.get(comment_id)
+  place = Place.query.get(place_id)
   if not comment:
     return { 'message': 'Comment not available' }, 404
 
   comment.remove()
-  return { 'message': f'Comment {id} successfully deleted' }
+  return populate_place.jsonify(place), 200
 
 
 # * Create folder ------------

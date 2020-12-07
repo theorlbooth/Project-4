@@ -1,6 +1,8 @@
 import React from 'react'
 import { Link, withRouter } from 'react-router-dom'
 
+import { getUserId } from '../lib/auth'
+
 const Navbar = (props) => {
 
   const token = localStorage.getItem('token')
@@ -20,7 +22,7 @@ const Navbar = (props) => {
               <Link className="button is-black" to="/">Home</Link>
               <Link className="button is-black" to="/search">Search</Link>
               <Link className="button is-black" to="/explore">Explore</Link>
-              {token && <Link className="button is-black" to="/user">User</Link>}
+              {token && <Link className="button is-black" to={`/user/${getUserId()}`}>User</Link>}
               {!token && <Link className="button is-black" to="/login">Login</Link>}
               {token && <Link className="button is-black" to="/" onClick={handleLogout}>Logout</Link>}
             </div>
