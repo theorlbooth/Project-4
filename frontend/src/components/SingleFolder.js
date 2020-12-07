@@ -4,12 +4,14 @@ import moment from 'moment'
 import { Link } from 'react-router-dom'
 import ReactStars from 'react-rating-stars-component'
 
+import { getUserId } from '../lib/auth'
 
 const user = (props) => {
 
   const [folder, updateFolder] = useState([])
   const id = props.match.params.id
   const token = localStorage.getItem('token')
+  const user = getUserId()
 
   useEffect(() => {
     axios.get(`/api/folders/${id}`, {
@@ -22,6 +24,15 @@ const user = (props) => {
   }, [])
 
 
+  function folderDelete() {
+    axios.delete(`/api/folders/${id}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(resp => {
+        props.history.push(`/user/${user}`)
+      })
+  }
+
   if (folder.name === undefined) {
     return <>
 
@@ -33,6 +44,8 @@ const user = (props) => {
       <div className="top-half">
         <h1 className="user-name">{folder.users[0].username}</h1>
         <p className="user-time">{`Created: ${moment(folder.created_at).fromNow()}`}</p>
+        <p className="folder-count">{folder.places.length !== 0 ? (`Contains: ${folder.places.length} places`) : ('Folder is empty')}</p>
+        <button className="button is-danger" onClick={folderDelete}>Delete Folder</button>
       </div>
       <div className="bottom-half">
         <div className="columns is-multiline is-mobile" style={{ display: 'flex', justifyContent: 'center' }}>

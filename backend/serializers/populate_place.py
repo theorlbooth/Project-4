@@ -12,3 +12,4 @@ class PopulatePlaceSchema(ma.SQLAlchemyAutoSchema, BaseSchema):
 
   user_id = fields.Integer()
   comments = fields.Nested('CommentSchema', many=True)
+  folder = fields.Nested('FolderSchema', many=True)
