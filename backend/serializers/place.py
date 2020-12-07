@@ -11,3 +11,4 @@ class PlaceSchema(ma.SQLAlchemyAutoSchema, BaseSchema):
     load_instance = True
 
   user_id = fields.Integer()
+  

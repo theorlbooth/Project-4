@@ -2,6 +2,7 @@ from flask import Blueprint, request
 from models.user import User
 from serializers.user import UserSchema
 from marshmallow import ValidationError
+from middleware.secure_route import secure_route
 
 user_schema = UserSchema()
 
@@ -39,3 +40,14 @@ def login():
   token = user.generate_token()
 
   return { 'token': token, 'message': 'Welcome back!' }, 200
+
+
+@router.route('/users/<int:id>', methods=['GET'])
+@secure_route
+def get_single_user(id):
+  user = User.query.get(id)
+
+  if not user:
+    return { 'message': 'User not available!' }, 404
+  
+  return user_schema.jsonify(user), 200

@@ -7,10 +7,10 @@ class Comment(db.Model, BaseModel):
 
   __tablename__ = 'comments'
 
-  content = db.Column(db.Text, nullable=False)
+  content = db.Column(db.Text, nullable=True)
   place = db.relationship('Place', backref='comments')
   place_id = db.Column(db.Integer, db.ForeignKey('places.id'))
-  rating = db.Column(db.Float, nullable=False)
+  rating = db.Column(db.Float, nullable=True)
 
   user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
   user = db.relationship('User', backref='comments')
