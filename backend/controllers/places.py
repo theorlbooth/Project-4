@@ -276,7 +276,7 @@ def get_single_place_id(id):
   if not place:
 
     #  request from external API
-    resp = requests.get(f'https://www.triposo.com/api/20201111/poi.json?id={id}&account=13H4CGCD&token=q70ac3dye4rnb1gsnvovoaoic854jjy1')
+    resp = requests.get(f'https://www.triposo.com/api/20201111/poi.json?id={id}&fields=id,name,coordinates,images,score,snippet,location_id,tag_labels&account=13H4CGCD&token=q70ac3dye4rnb1gsnvovoaoic854jjy1')
 
     if not resp:
       return { 'message': 'shite' }, 404
@@ -296,10 +296,16 @@ def get_single_place_id(id):
     score = place_dict['score']
     picture = image_info['source_url']
     description = place_dict['snippet']
+
+  # getting poi type
+    if place_dict['tag_labels']:
+      tag_list = place_dict['tag_labels']
+      poi_tag = [tag for tag in tag_list if "poitype" in tag]
+      poi = poi_tag[0]
+      tag = poi.split('-')
+    else:
+      tag = 'None'
     
-    # user_id = g.current_user.id
-    
-    print(' ')
     place_dictionary = {
       'name': name,
       'place_id': place_id,
@@ -308,9 +314,10 @@ def get_single_place_id(id):
       'picture': picture,
       'description': description,
       'score': score,
-      'user_id': 1
+      'user_id': 1,
+      'tags': tag[1]
     }
-    print(place_dictionary)
+    
 
     try:
       place = place_schema.load(place_dictionary)
