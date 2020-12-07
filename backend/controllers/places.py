@@ -272,15 +272,11 @@ def add_place_to_folder(folder_id, place_id):
 @router.route('/places/<string:id>', methods=['GET'])
 def get_single_place_id(id):
   place = Place.query.filter(Place.place_id == id).first()
-  # api_place_id = 'N__699779199'
-  print('hmm1')
-  print(id)
 
   if not place:
-    print('hmm2')
+
     #  request from external API
     resp = requests.get(f'https://www.triposo.com/api/20201111/poi.json?id={id}&account=13H4CGCD&token=q70ac3dye4rnb1gsnvovoaoic854jjy1')
-    print(resp)
 
     if not resp:
       return { 'message': 'shite' }, 404

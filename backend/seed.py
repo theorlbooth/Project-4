@@ -12,37 +12,40 @@ with app.app_context():
   db.drop_all()
   db.create_all()
 
-  # resp = requests.get('https://restcountries.eu/rest/v2/all')
-  # country_list = resp.json()
-  # print(len(country_list))
+  resp = requests.get('https://restcountries.eu/rest/v2/all')
+  country_list = resp.json()
   
-  # for country in country_list:
   
-  #   latlong = country['latlng']
-  #   print(len(latlong))
+  for country in country_list:
+    if len(country['latlng']) > 0:
+      latlong = country['latlng']
+    else: 
+      latlong = [0, 0]
+
+    print(latlong)
   
-  #   country['name'] = Country(
-  #     name=country['name'],
-  #     # lat=latlong[0],
-  #     # long=latlong[1],
-  #     region=country['region'],
-  #     subregion=country['subregion'],
-  #     alpha2code=country['alpha2Code']
-  #   )
-  #   country['name'].save()
+    country['name'] = Country(
+      name=country['name'],
+      lat=latlong[0],
+      long=latlong[1],
+      region=country['region'],
+      subregion=country['subregion'],
+      alpha2code=country['alpha2Code']
+    )
+    country['name'].save()
 # ! each country is not declared as variable/item...
 
   # ! seed two countries
 
-  ireland = Country(
-    name='Ireland',
-    lat=53,
-    long=-8,
-    region='Europe',
-    subregion='Northern Europe',
-    alpha2code='IE'
-  )
-  ireland.save()
+  # not_ireland = Country(
+  #   name='Ireland',
+  #   lat=53,
+  #   long=-8,
+  #   region='Europe',
+  #   subregion='Northern Europe',
+  #   alpha2code='IE'
+  # )
+  # not_ireland.save()
 
   uk = Country(
     name='United Kingdom',

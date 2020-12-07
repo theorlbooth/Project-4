@@ -24,7 +24,7 @@ const Explore = () => {
   }, [])
 
   return <div>
-
+{/* style markers - hide when zoom < 4/5 maybe?? */}
     <MapGL
       mapboxApiAccessToken={'pk.eyJ1Ijoic2Vhbi1mZW5lbG9uIiwiYSI6ImNraGMxbHBvOTAycWUycm1wczNpemZ0MGsifQ.phMK4dt1j_7wvlbYTbLWxg'}
       { ...viewPort }
