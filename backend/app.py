@@ -16,7 +16,11 @@ bcrypt = Bcrypt(app)
 
 from controllers import users
 from controllers import places
+from controllers import countries
+from controllers import countries_info
 
 app.register_blueprint(users.router, url_prefix="/api")
 app.register_blueprint(places.router, url_prefix="/api")
+app.register_blueprint(countries.router, url_prefix="/api")
+app.register_blueprint(countries_info.router, url_prefix="/api")
 
