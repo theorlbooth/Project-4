@@ -8,6 +8,7 @@ from serializers.populate_place import PopulatePlaceSchema
 from serializers.populate_folder import PopulateFolderSchema
 from serializers.folder_user import FolderUserSchema
 from serializers.folder import FolderSchema
+from serializers.user import UserSchema
 from marshmallow import ValidationError
 from middleware.secure_route import secure_route
 from marshmallow import fields
@@ -33,6 +34,7 @@ comment_schema = CommentSchema()
 populate_place = PopulatePlaceSchema()
 folder_schema = FolderSchema()
 populate_folder = PopulateFolderSchema()
+user_schema = UserSchema()
 
 
 router = Blueprint(__name__, 'places')
@@ -190,7 +192,7 @@ def create_folder():
   user_folder.append(folder)
   user.save()
   folder.save()
-  return folder_schema.jsonify(folder), 200
+  return user_schema.jsonify(user), 200
 
 
 # * Get folder ------------

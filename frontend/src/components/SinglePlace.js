@@ -4,6 +4,11 @@ import moment from 'moment'
 import ReactStars from 'react-rating-stars-component'
 import { elastic as Menu } from 'react-burger-menu'
 import { getUserId } from '../lib/auth'
+import uuid from 'react-uuid'
+import Modal from 'react-modal'
+import { Link } from 'react-router-dom'
+import Loader from './Loader'
+
 
 const singlePlace = (props) => {
 
@@ -14,6 +19,7 @@ const singlePlace = (props) => {
   const [content, setContent] = useState('')
   const [rating, setRating] = useState(0)
   const [userInfo, updateUserInfo] = useState({})
+  const [newFolderName, updateNewFolderName] = useState('')
 
   const id = props.match.params.id
   const token = localStorage.getItem('token')
@@ -23,10 +29,7 @@ const singlePlace = (props) => {
       const { data } = await axios.get(`/api/places/${id}`)
       updateSinglePlace(data)
       updateCurrentFolders(data.folder.map(folder => {
-        return folder.name
-      }))
-      console.log(data.folder.map(folder => {
-        return folder.name
+        return folder
       }))
       console.log(data)
 
@@ -39,10 +42,7 @@ const singlePlace = (props) => {
       })
       updateUserInfo(user)
       updateFutureFolders(user.folder.map(folder => {
-        return folder.name
-      }))
-      console.log(user.folder.map(folder => {
-        return folder.name
+        return folder
       }))
       console.log(user)
     }
@@ -80,11 +80,11 @@ const singlePlace = (props) => {
   }
 
 
-  if (userInfo.folder === undefined) {
-    return <>
-
-    </>
+  function findDiff(arr1, arr2) {
+    const difference = arr1.filter(({ id: id1 }) => !arr2.some(({ id: id2 }) => id2 === id1))
+    return difference
   }
+
 
   function addToFolder(folderId, placeId) {
     axios.post(`/api/folders/${folderId}/${placeId}`, {
@@ -102,7 +102,73 @@ const singlePlace = (props) => {
     })
       .then(resp => {
         console.log('deleted')
+        window.location.reload()
       })
+  }
+
+  function createAndAddToFolder(name) {
+    axios.post('/api/folders', { 'name': name }, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(resp => {
+        console.log(resp)
+        axios.post(`/api/folders/${resp.data.id}/${id}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        })
+          .then(resp => {
+            props.history.push(`/folders/${resp.data.id}`)
+          })
+      })
+  }
+
+  // ! Modal ------------
+  const customStyle = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+      textAlign: 'center',
+      fontSize: '22px'
+
+    },
+    overlay: {
+      zIndex: 1000,
+      background: 'rgba(0, 0, 0, 0.5)'
+    }
+  }
+
+  Modal.setAppElement('#root')
+
+  const [newModalIsOpen, setNewIsOpen] = useState(false)
+
+
+  function openNewModal() {
+    setNewIsOpen(true)
+  }
+
+  function closeNewModal() {
+    setNewIsOpen(false)
+  }
+
+  // ! ------------
+
+
+
+
+
+
+
+
+
+  if (currentFolders.length === 0 || locationInfo.results === undefined) {
+    return <>
+      <div className="flex-loader">
+        <Loader />
+      </div>
+    </>
   }
 
   return <>
@@ -114,24 +180,31 @@ const singlePlace = (props) => {
       <Menu right >
         <p style={{ textAlign: 'center' }}>--- CREATE FOLDER ---</p>
         <br />
-        <a className="menu-item" style={{ textAlign: 'center' }}>New</a>
+        <a className="menu-item" style={{ textAlign: 'center' }} onClick={openNewModal}>New</a>
         <br />
         <br />
         <p style={{ textAlign: 'center' }}>--- ADD TO FOLDER ---</p>
         <br />
-        {userInfo.folder.map(folder => {
-          return <a key={folder.name} className="menu-item" onClick={() => addToFolder(folder.id, singlePlace.id)} style={{ textAlign: 'center' }}>{folder.name}<br /><br /></a>
+        {findDiff(futureFolders, currentFolders).map(folder => {
+          return <a key={uuid()} className="menu-item" onClick={() => addToFolder(folder.id, singlePlace.id)} style={{ textAlign: 'center' }}>{folder.name}<br /><br /></a>
         })}
-        <br/>
+        <br />
         <p style={{ textAlign: 'center' }}>--- REMOVE FROM FOLDER ---</p>
-        <br/>
-        {singlePlace.folder.map(folder => {
-          return <a key={folder.name} className="menu-item" onClick={() => removeFromFolder(folder.id, singlePlace.id)} style={{ textAlign: 'center' }}>{folder.name}<br /><br /></a>
+        <br />
+        {currentFolders.map(folder => {
+          return <a key={uuid()} className="menu-item" onClick={() => removeFromFolder(folder.id, singlePlace.id)} style={{ textAlign: 'center' }}>{folder.name}<br /><br /></a>
         })}
         <br />
       </Menu>
 
-
+      <Modal isOpen={newModalIsOpen} onRequestClose={closeNewModal} style={customStyle} contentLabel="New Modal">
+        <p>Name:</p>
+        <input type="text" onChange={event => updateNewFolderName(event.target.value)} value={newFolderName} />
+        <div className="modal-buttons">
+          <button className="button is-black" style={{ border: '3px solid white', margin: '20px' }} onClick={() => createAndAddToFolder(newFolderName)}>confirm</button>
+          <button className="button is-black" style={{ border: '3px solid white', margin: '20px' }} onClick={closeNewModal}>cancel</button>
+        </div>
+      </Modal>
 
 
 
@@ -202,41 +275,6 @@ const singlePlace = (props) => {
           })}
         </div>
       </div>
-
-      <aside className="menu" style={{ display: 'none' }}>
-        <p className="menu-label">
-          General
-        </p>
-        <ul className="menu-list">
-          <li><a>Dashboard</a></li>
-          <li><a>Customers</a></li>
-        </ul>
-        <p className="menu-label">
-          Administration
-        </p>
-        <ul className="menu-list">
-          <li><a>Team Settings</a></li>
-          <li>
-            <a className="is-active">Manage Your Team</a>
-            <ul>
-              <li><a>Members</a></li>
-              <li><a>Plugins</a></li>
-              <li><a>Add a member</a></li>
-            </ul>
-          </li>
-          <li><a>Invitations</a></li>
-          <li><a>Cloud Storage Environment Settings</a></li>
-          <li><a>Authentication</a></li>
-        </ul>
-        <p className="menu-label">
-          Transactions
-        </p>
-        <ul className="menu-list">
-          <li><a>Payments</a></li>
-          <li><a>Transfers</a></li>
-          <li><a>Balance</a></li>
-        </ul>
-      </aside>
     </div >
   </>
 }
