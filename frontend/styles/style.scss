@@ -34,7 +34,7 @@
   .single-page-left {
     display: flex;
     flex-direction: column;
-    width: 50%;
+    width: 66%;
 
     h1 {
       font-size: 50px;
@@ -68,7 +68,39 @@
   .single-page-right {
     display: flex;
     flex-direction: column;
-    width: 50%;
+    width: 33%;
+
+    .comments-section {
+      height: 80vh;
+      overflow: auto;
+      margin: 40px 0px;
+      background: rgba(0, 0, 0, 0.1);
+      border: 3px solid white;
+      border-radius: 10px;
+      padding: 10px;
+
+      .media {
+        margin: 0px 10px 20px 10px;
+      }
+
+      .user-time {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+    
+        .username {
+          font-size: 20px;
+          font-weight: bold;
+          text-decoration: underline;
+        }
+      }
+
+      .comment-body {
+        margin: 0px;
+      }
+
+    }
+
   }
 }
 

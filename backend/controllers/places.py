@@ -56,6 +56,12 @@ def pop_index():
 @router.route('/places/<int:id>', methods=['GET'])
 def get_single_place(id):
   place = Place.query.get(id)
+  
+  comments = place.comments
+  new_comments = comments[::-1]
+
+  place.comments = new_comments
+
 
   if not place:
     return { 'message': 'Place not available' }, 404
@@ -142,6 +148,12 @@ def add_comment(place_id):
   comment = comment_schema.load(comment_data)
   comment.place = place
   comment.save()
+
+  comments = place.comments
+  new_comments = comments[::-1]
+
+  place.comments = new_comments
+  
   return populate_place.jsonify(place), 200
 
 
@@ -178,6 +190,12 @@ def delete_comment(place_id, comment_id):
     return { 'message': 'Comment not available' }, 404
 
   comment.remove()
+
+  comments = place.comments
+  new_comments = comments[::-1]
+
+  place.comments = new_comments
+
   return populate_place.jsonify(place), 200
 
 
@@ -192,8 +210,19 @@ def create_folder():
   user_folder.append(folder)
   user.save()
   folder.save()
-  return user_schema.jsonify(user), 200
+  return folder_schema.jsonify(folder), 200
 
+@router.route('/folder', methods=['POST'])
+@secure_route
+def create_folder_2():
+  folder_data = request.get_json()
+  user = g.current_user
+  user_folder = g.current_user.folder
+  folder = folder_schema.load(folder_data)
+  user_folder.append(folder)
+  user.save()
+  folder.save()
+  return user_schema.jsonify(user), 200
 
 # * Get folder ------------
 @router.route('/folders/<int:id>', methods=['GET'])
@@ -251,7 +280,8 @@ def delete_place_from_folder(folder_id, place_id):
   new_folder = [place for place in folder.places if place.id != place_id]
   folder.places = new_folder
   folder.save()
-  return populate_folder.jsonify(folder), 200
+  place = Place.query.get(place_id)
+  return populate_place.jsonify(place), 200
   
 
 # * Add place to folder ------------
@@ -274,7 +304,8 @@ def add_place_to_folder(folder_id, place_id):
   print(new_folder)
   folder.places = new_folder  
   folder.save()
-  return populate_folder.jsonify(folder)
+  
+  return populate_place.jsonify(place)
 
 
 # * Get info for place ------------

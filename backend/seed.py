@@ -90,7 +90,7 @@ with app.app_context():
     place_id='Oxford_Street',
     score=9.98052217263237, 
     user_id=1,
-    folder=[amsterdam]
+    folder=[amsterdam, paris]
   )
   oxford_street.save()
 
@@ -103,7 +103,7 @@ with app.app_context():
     place_id='N__1598420155',
     score=6.05745148329591, 
     user_id=1,
-    folder=[amsterdam]
+    folder=[amsterdam, paris]
   )
   rules.save()
 
@@ -116,7 +116,7 @@ with app.app_context():
     place_id='Blackbushe_Airport',
     score=0.500000000000001, 
     user_id=2,
-    folder=[paris]
+    folder=[paris, amsterdam]
   )
   blackbushe_airport.save()
 
@@ -129,7 +129,7 @@ with app.app_context():
     place_id='W__40405915',
     score=9.96045453652326, 
     user_id=2,
-    folder=[paris]
+    folder=[paris, amsterdam]
   )
   british_museum.save()
 

@@ -5,3 +5,11 @@ export function getUserId() {
   const parsedToken = JSON.parse(atob(token.split('.')[1]))
   return parsedToken.sub
 }
+
+export function isCreator(compareId) {
+  if (getUserId() === compareId) {
+    return true
+  } else {
+    return false
+  }
+}

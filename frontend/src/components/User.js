@@ -59,7 +59,7 @@ const user = (props) => {
 
 
   function createFolder(name) {
-    axios.post('/api/folders', { 'name': name }, {
+    axios.post('/api/folder', { 'name': name }, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(resp => {
