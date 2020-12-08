@@ -236,6 +236,15 @@ def get_folder(id):
   return populate_folder.jsonify(folder), 200
 
 
+# * Get all folders ------------
+@router.route('/folders', methods=['GET'])
+@secure_route
+def get_folders():
+  folders = Folder.query.all()
+
+  return populate_folder.jsonify(folders, many=True), 200
+
+
 # * Put Folder ------------
 @router.route('/folders/<int:id>', methods=['PUT'])
 @secure_route
@@ -256,7 +265,7 @@ def put_folder(id):
     return { 'errors': e.messages, 'message': 'Something went wrong' }
 
   folder.save()
-  return folder_schema.jsonify(folder), 201
+  return populate_folder.jsonify(folder), 201
 
 
 # * Delete folder ------------
@@ -282,6 +291,16 @@ def delete_place_from_folder(folder_id, place_id):
   folder.save()
   place = Place.query.get(place_id)
   return populate_place.jsonify(place), 200
+
+@router.route('/folder/<int:folder_id>/<int:place_id>', methods=['DELETE'])
+@secure_route
+def delete_place_from_folder_2(folder_id, place_id):
+  folder = Folder.query.get(folder_id)
+  new_folder = [place for place in folder.places if place.id != place_id]
+  folder.places = new_folder
+  folder.save()
+  place = Place.query.get(place_id)
+  return populate_folder.jsonify(folder), 200
   
 
 # * Add place to folder ------------

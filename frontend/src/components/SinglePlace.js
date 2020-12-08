@@ -9,6 +9,7 @@ import Modal from 'react-modal'
 import { Link } from 'react-router-dom'
 import Loader from './Loader'
 import Clock from 'react-live-clock'
+import Toggle from 'react-toggle'
 
 
 const singlePlace = (props) => {
@@ -22,6 +23,7 @@ const singlePlace = (props) => {
   const [userInfo, updateUserInfo] = useState({})
   const [newFolderName, updateNewFolderName] = useState('')
   const [addRemoveName, updateAddRemoveName] = useState('')
+  const [toggle, updateToggle] = useState()
 
   const id = props.match.params.id
   const token = localStorage.getItem('token')
@@ -121,7 +123,7 @@ const singlePlace = (props) => {
   function createAndAddToFolder(name) {
     openCreateAndAddModal()
     updateAddRemoveName(name)
-    axios.post('/api/folders', { 'name': name }, {
+    axios.post('/api/folders', { 'name': name, 'public': toggle }, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(resp => {
@@ -129,6 +131,13 @@ const singlePlace = (props) => {
         axios.post(`/api/folders/${resp.data.id}/${id}`, {
           headers: { Authorization: `Bearer ${token}` }
         })
+          .then(resp => {
+            updateSinglePlace(resp.data)
+            console.log(resp.data)
+            updateCurrentFolders(resp.data.folder.map(folder => {
+              return folder
+            }))
+          })
       })
   }
 
@@ -213,21 +222,23 @@ const singlePlace = (props) => {
     <div className="single-page">
 
       <Menu right >
-        <p style={{ textAlign: 'center' }}>--- CREATE FOLDER ---</p>
+        <p style={{ textAlign: 'center' }}>--- NEW FOLDER ---</p>
         <br />
         <a className="menu-item" style={{ textAlign: 'center' }} onClick={openNewModal}>New</a>
         <br />
         <br />
-        <p style={{ textAlign: 'center' }}>--- ADD TO FOLDER ---</p>
+        <p style={{ textAlign: 'center' }}>--- ADD TO ---</p>
         <br />
         {findDiff(futureFolders, currentFolders).map(folder => {
           return <a key={uuid()} className="menu-item" onClick={() => addToFolder(folder.id, singlePlace.id, folder.name)} style={{ textAlign: 'center' }}>{folder.name}<br /><br /></a>
         })}
         <br />
-        <p style={{ textAlign: 'center' }}>--- REMOVE FROM FOLDER ---</p>
+        <p style={{ textAlign: 'center' }}>--- REMOVE FROM ---</p>
         <br />
         {currentFolders.map(folder => {
-          return <a key={uuid()} className="menu-item" onClick={() => removeFromFolder(folder.id, singlePlace.id, folder.name)} style={{ textAlign: 'center' }}>{folder.name}<br /><br /></a>
+          return <div key={uuid()} style={{ textAlign: 'center' }}>
+            {isCreator(folder.users[0].id) && <a className="menu-item" onClick={() => removeFromFolder(folder.id, singlePlace.id, folder.name)} style={{ textAlign: 'center' }}>{folder.name}<br /><br /></a>}
+          </div>
         })}
         <br />
       </Menu>
@@ -235,9 +246,13 @@ const singlePlace = (props) => {
       <Modal isOpen={newModalIsOpen} onRequestClose={closeNewModal} style={customStyle} contentLabel="New Modal">
         <p>Name:</p>
         <input type="text" onChange={event => updateNewFolderName(event.target.value)} value={newFolderName} />
+        <div style={{ color: 'black', display: 'flex', alignItems: 'center', alignContent: 'center', justifyContent: 'center', borderRadius: '5px', margin: '10px' }}>
+          <Toggle id="public-toggle" className="react-toggle" defaultChecked={toggle} onChange={(event) => updateToggle(event.target.checked)} />
+          <label htmlFor="public-toggle" style={{ marginLeft: '10px' }}>Public</label>
+        </div>
         <div className="modal-buttons">
-          <button className="button is-black" style={{ border: '3px solid white', margin: '20px' }} onClick={() => createAndAddToFolder(newFolderName)}>confirm</button>
-          <button className="button is-black" style={{ border: '3px solid white', margin: '20px' }} onClick={closeNewModal}>cancel</button>
+          <button className="button is-black" style={{ border: '3px solid white', margin: '5px' }} onClick={() => createAndAddToFolder(newFolderName)}>confirm</button>
+          <button className="button is-black" style={{ border: '3px solid white', margin: '5px' }} onClick={closeNewModal}>cancel</button>
         </div>
       </Modal>
       <Modal isOpen={addModalIsOpen} onRequestClose={closeAddModal} style={customStyle} contentLabel="Add Modal">

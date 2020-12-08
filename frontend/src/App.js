@@ -1,6 +1,7 @@
 import React from 'react'
 import { BrowserRouter, Switch, Link, Route } from 'react-router-dom'
 import '../styles/style.scss'
+import 'react-toggle/style.css'
 import bulma from 'bulma'
 
 import NavBar from './components/Navbar'
@@ -12,6 +13,7 @@ import SinglePlace from './components/SinglePlace'
 import User from './components/User'
 import SingleFolder from './components/SingleFolder'
 import Country from './components/Country'
+import PublicFolders from './components/PublicFolders'
 
 
 const App = () => {
@@ -26,6 +28,7 @@ const App = () => {
       <Route exact path="/places/:id" component={SinglePlace}></Route>
       <Route exact path="/user/:id" component={User}></Route>
       <Route exact path="/folders/:id" component={SingleFolder}></Route>
+      <Route exact path="/folders" component={PublicFolders}></Route>
       <Route exact path="/country/:countrycode" component={Country}></Route>
     </Switch>
   </BrowserRouter>

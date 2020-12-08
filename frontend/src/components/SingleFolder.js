@@ -3,8 +3,9 @@ import axios from 'axios'
 import moment from 'moment'
 import { Link } from 'react-router-dom'
 import ReactStars from 'react-rating-stars-component'
+import Toggle from 'react-toggle'
 
-import { getUserId } from '../lib/auth'
+import { getUserId, isCreator } from '../lib/auth'
 
 const user = (props) => {
 
@@ -12,6 +13,7 @@ const user = (props) => {
   const id = props.match.params.id
   const token = localStorage.getItem('token')
   const user = getUserId()
+  const [toggle, updateToggle] = useState()
 
   useEffect(() => {
     axios.get(`/api/folders/${id}`, {
@@ -34,7 +36,7 @@ const user = (props) => {
   }
 
   function removeFromFolder(placeId) {
-    axios.delete(`/api/folders/${id}/${placeId}`, {
+    axios.delete(`/api/folder/${id}/${placeId}`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(resp => {
@@ -42,6 +44,17 @@ const user = (props) => {
         updateFolder(resp.data)
       })
   }
+
+  useEffect(() => {
+    axios.put(`/api/folders/${id}`, { 'public': toggle }, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(resp => {
+        console.log(resp.data)
+        updateFolder(resp.data)
+      })
+  }, [toggle])
+
 
 
 
@@ -59,8 +72,14 @@ const user = (props) => {
         <p className="user-name">{`User: ${folder.users[0].username}`}</p>
         <p className="user-time">{`Created: ${moment(folder.created_at).fromNow()}`}</p>
         <p className="folder-count">{folder.places.length !== 0 ? (`Contains: ${folder.places.length} places`) : ('Folder is empty')}</p>
-        <Link to={`/user/${user}`}><button id="button-1" className="button is-black">Back</button></Link>
-        <button id="button-2" className="button is-danger" onClick={folderDelete}>Delete Folder</button>
+        {/* <Link to={`/user/${user}`}><button id="button-1" className="button is-black">Back</button></Link> */}
+        {isCreator(folder.users[0].id) && <button id="button-1" className="button is-danger" onClick={folderDelete}>Delete Folder</button>}
+
+        {isCreator(folder.users[0].id) && <div style={{ backgroundColor: 'gray', color: 'whitesmoke', display: 'flex', fontWeight: '700', alignContent: 'center', padding: '5px', border: '5px solid gray', borderRadius: '5px', margin: '10px' }}>
+          <Toggle id="public-toggle" className="react-toggle" defaultChecked={folder.public} onChange={(event) => updateToggle(event.target.checked)} />
+          <label htmlFor="public-toggle" style={{ marginLeft: '10px' }}>Public</label>
+        </div>}
+
       </div>
       <div className="bottom-half">
         <div className="columns is-multiline is-mobile" style={{ display: 'flex', justifyContent: 'center' }}>
@@ -81,9 +100,9 @@ const user = (props) => {
                     </div>
                   </div>
                 </Link>
-                <footer className="car-footer">
+                {isCreator(folder.users[0].id) && <footer className="car-footer">
                   <a className="card-footer-item" onClick={() => removeFromFolder(place.id)}>Remove</a>
-                </footer>
+                </footer>}
               </div>
             </div>
           })}

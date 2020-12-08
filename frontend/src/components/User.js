@@ -3,6 +3,7 @@ import axios from 'axios'
 import moment from 'moment'
 import { Link } from 'react-router-dom'
 import Modal from 'react-modal'
+import Loader from './Loader'
 
 
 const user = (props) => {
@@ -73,7 +74,9 @@ const user = (props) => {
 
   if (user.username === undefined) {
     return <>
-
+      <div className="flex-loader">
+        <Loader />
+      </div>
     </>
   }
 

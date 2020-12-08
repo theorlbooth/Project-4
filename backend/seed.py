@@ -57,10 +57,16 @@ with app.app_context():
   )
   uk.save()
 
-  amsterdam = Folder(name='Amsterdam')
+  amsterdam = Folder(
+    name='Amsterdam',
+    public=True
+    )
   amsterdam.save()
 
-  paris = Folder(name='Paris')
+  paris = Folder(
+    name='Paris',
+    public=True
+    )
   paris.save()
 
   sean = User(

@@ -205,6 +205,34 @@ Note: Beware of modifying this element as it can break the animations - you shou
   }
 }
 
+// * Public Folders Page ------------
+
+.folders-page {
+  display: flex;
+  flex-direction: column;
+
+  .top-half {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-bottom: solid 2px lightgrey;
+    margin-bottom: 30px;
+    
+    h1 {
+      font-size: 40px;
+      padding: 20px;
+    }
+
+    p {
+      font-size: 20px;
+      padding-bottom: 30px;
+    }
+  }
+
+  .bottom-half {
+    margin-top: 30px;
+  }
+}
 
 // * Single Folder Page ------------
 
@@ -217,6 +245,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
     flex-direction: column;
     align-items: center;
     border-bottom: solid 2px lightgrey;
+    padding-bottom: 30px;
     
     h1 {
       font-size: 40px;
@@ -228,12 +257,9 @@ Note: Beware of modifying this element as it can break the animations - you shou
     }
 
     #button-1 {
-      margin: 15px 0px;
+      margin-top: 15px;
     }
 
-    #button-2 {
-      margin-bottom: 15px;
-    }
   }
 
   .bottom-half {
