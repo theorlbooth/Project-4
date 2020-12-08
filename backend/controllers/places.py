@@ -13,6 +13,11 @@ from middleware.secure_route import secure_route
 from marshmallow import fields
 from sqlalchemy.sql import text
 
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
+LAT_LONG_KEY = os.getenv('LAT_LONG_KEY')
 
 import requests
 
@@ -249,7 +254,6 @@ def delete_place_from_folder(folder_id, place_id):
 
 # * Add place to folder ------------
 @router.route('/folders/<int:folder_id>/<int:place_id>', methods=['POST'])
-@secure_route
 def add_place_to_folder(folder_id, place_id):
   place = Place.query.get(place_id)
   folder = Folder.query.get(folder_id)
@@ -269,6 +273,22 @@ def add_place_to_folder(folder_id, place_id):
   folder.places = new_folder  
   folder.save()
   return populate_folder.jsonify(folder)
+
+
+# * Get info for place ------------
+@router.route('/place/place_info/<string:lat>/<string:long>', methods=['GET'])
+def get_place_info(lat, long):
+  print(lat)
+  print(long)
+  resp = requests.get(f'https://api.opencagedata.com/geocode/v1/json?q={lat},{long}&key={LAT_LONG_KEY}')
+
+  print(resp)
+
+  if not resp:
+    return { 'message': 'No results' }, 404
+
+  results = resp.json()
+  return results
 
 
 

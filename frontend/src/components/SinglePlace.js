@@ -2,28 +2,58 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import moment from 'moment'
 import ReactStars from 'react-rating-stars-component'
-
+import { elastic as Menu } from 'react-burger-menu'
+import { getUserId } from '../lib/auth'
 
 const singlePlace = (props) => {
 
-  const [singlePlace, updateSinglePlace] = useState([])
+  const [singlePlace, updateSinglePlace] = useState({})
+  const [currentFolders, updateCurrentFolders] = useState([])
+  const [futureFolders, updateFutureFolders] = useState([])
+  const [locationInfo, updateLocationInfo] = useState({})
   const [content, setContent] = useState('')
   const [rating, setRating] = useState(0)
+  const [userInfo, updateUserInfo] = useState({})
+
   const id = props.match.params.id
   const token = localStorage.getItem('token')
 
   useEffect(() => {
-    axios.get(`/api/places/${id}`)
-      .then(resp => {
-        console.log(resp.data)
-        updateSinglePlace(resp.data)
+    async function fetchData() {
+      const { data } = await axios.get(`/api/places/${id}`)
+      updateSinglePlace(data)
+      updateCurrentFolders(data.folder.map(folder => {
+        return folder.name
+      }))
+      console.log(data.folder.map(folder => {
+        return folder.name
+      }))
+      console.log(data)
+
+      const { data: geoData } = await axios.get(`/api/place/place_info/${data.lat}/${data.long}`)
+      updateLocationInfo(geoData)
+      console.log(geoData)
+
+      const { data: user } = await axios.get(`/api/users/${getUserId()}`, {
+        headers: { Authorization: `Bearer ${token}` }
       })
+      updateUserInfo(user)
+      updateFutureFolders(user.folder.map(folder => {
+        return folder.name
+      }))
+      console.log(user.folder.map(folder => {
+        return folder.name
+      }))
+      console.log(user)
+    }
+
+    fetchData()
   }, [])
 
-  // ! -------------
+
+
+
   function handleComment() {
-    console.log(content)
-    console.log(rating)
     if (content === '' && rating === 0) {
       return
     } else {
@@ -49,26 +79,87 @@ const singlePlace = (props) => {
       })
   }
 
-  // ! -------------  
 
-  if (singlePlace.name === undefined) {
+  if (userInfo.folder === undefined) {
     return <>
 
     </>
   }
 
+  function addToFolder(folderId, placeId) {
+    axios.post(`/api/folders/${folderId}/${placeId}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(resp => {
+        console.log(resp)
+        props.history.push(`/folders/${folderId}`)
+      })
+  }
+
+  function removeFromFolder(folderId, placeId) {
+    axios.delete(`/api/folders/${folderId}/${placeId}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(resp => {
+        console.log('deleted')
+      })
+  }
 
   return <>
     <div className="single-page">
+
+
+
+
+      <Menu right >
+        <p style={{ textAlign: 'center' }}>--- CREATE FOLDER ---</p>
+        <br />
+        <a className="menu-item" style={{ textAlign: 'center' }}>New</a>
+        <br />
+        <br />
+        <p style={{ textAlign: 'center' }}>--- ADD TO FOLDER ---</p>
+        <br />
+        {userInfo.folder.map(folder => {
+          return <a key={folder.name} className="menu-item" onClick={() => addToFolder(folder.id, singlePlace.id)} style={{ textAlign: 'center' }}>{folder.name}<br /><br /></a>
+        })}
+        <br/>
+        <p style={{ textAlign: 'center' }}>--- REMOVE FROM FOLDER ---</p>
+        <br/>
+        {singlePlace.folder.map(folder => {
+          return <a key={folder.name} className="menu-item" onClick={() => removeFromFolder(folder.id, singlePlace.id)} style={{ textAlign: 'center' }}>{folder.name}<br /><br /></a>
+        })}
+        <br />
+      </Menu>
+
+
+
+
+
       <div className="single-page-left">
         <h1 className="name">{singlePlace.name}</h1>
+        <div className="address">
+          <div className="information">{locationInfo.results[0].components.information}</div>
+          <div className="road">{locationInfo.results[0].components.road}</div>
+          <div className="city">{locationInfo.results[0].components.city}</div>
+          <div className="postcode">{locationInfo.results[0].components.postcode}</div>
+        </div>
+        <div className="country-info">
+          <div className="flag">
+            <div className="flag">{locationInfo.results[0].annotations.flag}</div>
+          </div>
+          <div className="other-info">
+            <div className="timezone">{`Timezone: ${locationInfo.results[0].annotations.timezone.short_name}`}</div>
+            <div className="calling-code">{`Country Code: +${locationInfo.results[0].annotations.callingcode}`}</div>
+            <div className="currency">{`Currency: ${locationInfo.results[0].annotations.currency.iso_code} / ${locationInfo.results[0].annotations.currency.symbol}`}</div>
+          </div>
+        </div>
         <p className="blurb">{singlePlace.description}</p>
         <div className="folders"></div>
       </div>
+
+
       <div className="single-page-right">
         <img src={singlePlace.picture} alt={singlePlace.name} />
-
-
         <div className="comments-section" style={{ border: '3px solid black' }}>
           <article className="media">
             {(!token && singlePlace.comments.length === 0) && <div style={{ margin: 'auto' }} className="no-comments">No Comments</div>}
@@ -111,7 +202,42 @@ const singlePlace = (props) => {
           })}
         </div>
       </div>
-    </div>
+
+      <aside className="menu" style={{ display: 'none' }}>
+        <p className="menu-label">
+          General
+        </p>
+        <ul className="menu-list">
+          <li><a>Dashboard</a></li>
+          <li><a>Customers</a></li>
+        </ul>
+        <p className="menu-label">
+          Administration
+        </p>
+        <ul className="menu-list">
+          <li><a>Team Settings</a></li>
+          <li>
+            <a className="is-active">Manage Your Team</a>
+            <ul>
+              <li><a>Members</a></li>
+              <li><a>Plugins</a></li>
+              <li><a>Add a member</a></li>
+            </ul>
+          </li>
+          <li><a>Invitations</a></li>
+          <li><a>Cloud Storage Environment Settings</a></li>
+          <li><a>Authentication</a></li>
+        </ul>
+        <p className="menu-label">
+          Transactions
+        </p>
+        <ul className="menu-list">
+          <li><a>Payments</a></li>
+          <li><a>Transfers</a></li>
+          <li><a>Balance</a></li>
+        </ul>
+      </aside>
+    </div >
   </>
 }
 
