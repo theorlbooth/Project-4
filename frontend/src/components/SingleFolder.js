@@ -33,6 +33,19 @@ const user = (props) => {
       })
   }
 
+  function removeFromFolder(placeId) {
+    axios.delete(`/api/folders/${id}/${placeId}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(resp => {
+        console.log('deleted')
+        updateFolder(resp.data)
+      })
+  }
+
+
+
+
   if (folder.name === undefined) {
     return <>
 
@@ -40,19 +53,22 @@ const user = (props) => {
   }
 
   return <>
-    <div className="user-page">
+    <div className="single-folder-page">
       <div className="top-half">
-        <h1 className="user-name">{folder.users[0].username}</h1>
+        <h1 className="name">{folder.name}</h1>
+        <p className="user-name">{`User: ${folder.users[0].username}`}</p>
         <p className="user-time">{`Created: ${moment(folder.created_at).fromNow()}`}</p>
         <p className="folder-count">{folder.places.length !== 0 ? (`Contains: ${folder.places.length} places`) : ('Folder is empty')}</p>
-        <button className="button is-danger" onClick={folderDelete}>Delete Folder</button>
+        <Link to={`/user/${user}`}><button id="button-1" className="button is-black">Back</button></Link>
+        <button id="button-2" className="button is-danger" onClick={folderDelete}>Delete Folder</button>
       </div>
       <div className="bottom-half">
         <div className="columns is-multiline is-mobile" style={{ display: 'flex', justifyContent: 'center' }}>
           {folder.places.map((place, index) => {
             return <div className="column is-2-desktop is-6-tablet is-12-mobile" key={index}>
-              <Link to={`/places/${place.id}`}>
-                <div className="card">
+
+              <div className="card">
+                <Link to={`/places/${place.id}`}>
                   <div className="card-image">
                     <figure className="image is-square">
                       <img src={place.picture} alt={place.name} />
@@ -61,11 +77,14 @@ const user = (props) => {
                   <div className="card-content">
                     <div className="media-content">
                       <h2 className="title is-5">{place.name}</h2>
-                      <ReactStars value={(place.score) / 2} count={5} size={15} activeColor="#ffd700" edit={false} isHalf={true} style={{ alignSelf: 'center' }}/>
+                      <ReactStars value={(place.score) / 2} count={5} size={15} activeColor="#ffd700" edit={false} isHalf={true} style={{ alignSelf: 'center' }} />
                     </div>
                   </div>
-                </div>
-              </Link>
+                </Link>
+                <footer className="car-footer">
+                  <a className="card-footer-item" onClick={() => removeFromFolder(place.id)}>Remove</a>
+                </footer>
+              </div>
             </div>
           })}
         </div>

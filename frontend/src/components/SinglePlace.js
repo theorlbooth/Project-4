@@ -3,7 +3,13 @@ import axios from 'axios'
 import moment from 'moment'
 import ReactStars from 'react-rating-stars-component'
 import { elastic as Menu } from 'react-burger-menu'
-import { getUserId } from '../lib/auth'
+import { getUserId, isCreator } from '../lib/auth'
+import uuid from 'react-uuid'
+import Modal from 'react-modal'
+import { Link } from 'react-router-dom'
+import Loader from './Loader'
+import Clock from 'react-live-clock'
+
 
 const singlePlace = (props) => {
 
@@ -14,6 +20,8 @@ const singlePlace = (props) => {
   const [content, setContent] = useState('')
   const [rating, setRating] = useState(0)
   const [userInfo, updateUserInfo] = useState({})
+  const [newFolderName, updateNewFolderName] = useState('')
+  const [addRemoveName, updateAddRemoveName] = useState('')
 
   const id = props.match.params.id
   const token = localStorage.getItem('token')
@@ -23,10 +31,7 @@ const singlePlace = (props) => {
       const { data } = await axios.get(`/api/places/${id}`)
       updateSinglePlace(data)
       updateCurrentFolders(data.folder.map(folder => {
-        return folder.name
-      }))
-      console.log(data.folder.map(folder => {
-        return folder.name
+        return folder
       }))
       console.log(data)
 
@@ -39,10 +44,7 @@ const singlePlace = (props) => {
       })
       updateUserInfo(user)
       updateFutureFolders(user.folder.map(folder => {
-        return folder.name
-      }))
-      console.log(user.folder.map(folder => {
-        return folder.name
+        return folder
       }))
       console.log(user)
     }
@@ -80,59 +82,183 @@ const singlePlace = (props) => {
   }
 
 
-  if (userInfo.folder === undefined) {
-    return <>
-
-    </>
+  function findDiff(arr1, arr2) {
+    const difference = arr1.filter(({ id: id1 }) => !arr2.some(({ id: id2 }) => id2 === id1))
+    return difference
   }
 
-  function addToFolder(folderId, placeId) {
+
+  function addToFolder(folderId, placeId, name) {
+    openAddModal()
+    updateAddRemoveName(name)
     axios.post(`/api/folders/${folderId}/${placeId}`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(resp => {
-        console.log(resp)
-        props.history.push(`/folders/${folderId}`)
+        updateSinglePlace(resp.data)
+        console.log(resp.data)
+        updateCurrentFolders(resp.data.folder.map(folder => {
+          return folder
+        }))
       })
   }
 
-  function removeFromFolder(folderId, placeId) {
+  function removeFromFolder(folderId, placeId, name) {
+    openRemoveModal()
+    updateAddRemoveName(name)
     axios.delete(`/api/folders/${folderId}/${placeId}`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(resp => {
-        console.log('deleted')
+        updateSinglePlace(resp.data)
+        console.log(resp.data)
+        updateCurrentFolders(resp.data.folder.map(folder => {
+          return folder
+        }))
       })
+  }
+
+  function createAndAddToFolder(name) {
+    openCreateAndAddModal()
+    updateAddRemoveName(name)
+    axios.post('/api/folders', { 'name': name }, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(resp => {
+        console.log(resp)
+        axios.post(`/api/folders/${resp.data.id}/${id}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        })
+      })
+  }
+
+  // ! Modal ------------
+  const customStyle = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+      textAlign: 'center',
+      fontSize: '22px'
+
+    },
+    overlay: {
+      zIndex: 1000,
+      background: 'rgba(0, 0, 0, 0.5)'
+    }
+  }
+
+  Modal.setAppElement('#root')
+
+  const [newModalIsOpen, setNewIsOpen] = useState(false)
+  const [addModalIsOpen, setAddIsOpen] = useState(false)
+  const [removeModalIsOpen, setRemoveIsOpen] = useState(false)
+  const [createAndAddModalIsOpen, setCreateAndAddIsOpen] = useState(false)
+
+
+  function openNewModal() {
+    setNewIsOpen(true)
+  }
+
+  function closeNewModal() {
+    setNewIsOpen(false)
+  }
+
+  function openAddModal() {
+    setAddIsOpen(true)
+  }
+
+  function closeAddModal() {
+    setAddIsOpen(false)
+  }
+
+  function openRemoveModal() {
+    setRemoveIsOpen(true)
+  }
+
+  function closeRemoveModal() {
+    setRemoveIsOpen(false)
+  }
+
+  function openCreateAndAddModal() {
+    setCreateAndAddIsOpen(true)
+  }
+
+  function closeCreateAndAddModal() {
+    setCreateAndAddIsOpen(false)
+    closeNewModal()
+  }
+  // ! ------------
+
+
+
+
+
+
+
+
+
+  if ((singlePlace.folder === undefined && currentFolders.length === 0) || locationInfo.results === undefined) {
+    return <>
+      <div className="flex-loader">
+        <Loader />
+      </div>
+    </>
   }
 
   return <>
     <div className="single-page">
 
-
-
-
       <Menu right >
         <p style={{ textAlign: 'center' }}>--- CREATE FOLDER ---</p>
         <br />
-        <a className="menu-item" style={{ textAlign: 'center' }}>New</a>
+        <a className="menu-item" style={{ textAlign: 'center' }} onClick={openNewModal}>New</a>
         <br />
         <br />
         <p style={{ textAlign: 'center' }}>--- ADD TO FOLDER ---</p>
         <br />
-        {userInfo.folder.map(folder => {
-          return <a key={folder.name} className="menu-item" onClick={() => addToFolder(folder.id, singlePlace.id)} style={{ textAlign: 'center' }}>{folder.name}<br /><br /></a>
+        {findDiff(futureFolders, currentFolders).map(folder => {
+          return <a key={uuid()} className="menu-item" onClick={() => addToFolder(folder.id, singlePlace.id, folder.name)} style={{ textAlign: 'center' }}>{folder.name}<br /><br /></a>
         })}
-        <br/>
+        <br />
         <p style={{ textAlign: 'center' }}>--- REMOVE FROM FOLDER ---</p>
-        <br/>
-        {singlePlace.folder.map(folder => {
-          return <a key={folder.name} className="menu-item" onClick={() => removeFromFolder(folder.id, singlePlace.id)} style={{ textAlign: 'center' }}>{folder.name}<br /><br /></a>
+        <br />
+        {currentFolders.map(folder => {
+          return <a key={uuid()} className="menu-item" onClick={() => removeFromFolder(folder.id, singlePlace.id, folder.name)} style={{ textAlign: 'center' }}>{folder.name}<br /><br /></a>
         })}
         <br />
       </Menu>
 
-
-
+      <Modal isOpen={newModalIsOpen} onRequestClose={closeNewModal} style={customStyle} contentLabel="New Modal">
+        <p>Name:</p>
+        <input type="text" onChange={event => updateNewFolderName(event.target.value)} value={newFolderName} />
+        <div className="modal-buttons">
+          <button className="button is-black" style={{ border: '3px solid white', margin: '20px' }} onClick={() => createAndAddToFolder(newFolderName)}>confirm</button>
+          <button className="button is-black" style={{ border: '3px solid white', margin: '20px' }} onClick={closeNewModal}>cancel</button>
+        </div>
+      </Modal>
+      <Modal isOpen={addModalIsOpen} onRequestClose={closeAddModal} style={customStyle} contentLabel="Add Modal">
+        <p>Added to {addRemoveName} folder</p>
+        <div className="modal-buttons">
+          <button className="button is-black" style={{ border: '3px solid white', margin: '20px' }} onClick={closeAddModal}>close</button>
+        </div>
+      </Modal>
+      <Modal isOpen={removeModalIsOpen} onRequestClose={closeRemoveModal} style={customStyle} contentLabel="Remove Modal">
+        <p>Removed from {addRemoveName} folder</p>
+        <div className="modal-buttons">
+          <button className="button is-black" style={{ border: '3px solid white', margin: '20px' }} onClick={closeRemoveModal}>close</button>
+        </div>
+      </Modal>
+      <Modal isOpen={createAndAddModalIsOpen} onRequestClose={closeCreateAndAddModal} style={customStyle} contentLabel="Create And Add Modal">
+        <p>{addRemoveName} folder created!</p>
+        <p>And {singlePlace.name} added to it!</p>
+        <div className="modal-buttons">
+          <button className="button is-black" style={{ border: '3px solid white', margin: '20px' }} onClick={closeCreateAndAddModal}>close</button>
+        </div>
+      </Modal>
 
 
       <div className="single-page-left">
@@ -148,7 +274,8 @@ const singlePlace = (props) => {
             <div className="flag">{locationInfo.results[0].annotations.flag}</div>
           </div>
           <div className="other-info">
-            <div className="timezone">{`Timezone: ${locationInfo.results[0].annotations.timezone.short_name}`}</div>
+            <div className="timezone">{`Timezone: ${locationInfo.results[0].annotations.timezone.short_name} / `}
+              <Clock format={'HH:mm:ss'} ticking={true} timezone={locationInfo.results[0].annotations.timezone.name} /></div>
             <div className="calling-code">{`Country Code: +${locationInfo.results[0].annotations.callingcode}`}</div>
             <div className="currency">{`Currency: ${locationInfo.results[0].annotations.currency.iso_code} / ${locationInfo.results[0].annotations.currency.symbol}`}</div>
           </div>
@@ -166,10 +293,10 @@ const singlePlace = (props) => {
             {token && <div className="media-content">
 
               <div className="field">
-                <ReactStars count={5} size={24} activeColor="#ffd700" isHalf={true} onChange={event => setRating((event) * 2)} value={rating} />
                 <p className="control">
-                  <textarea className="textarea" placeholder="Post a comment..." onChange={event => setContent(event.target.value)} value={content}>{content}</textarea>
+                  <textarea style={{ marginTop: '10px' }} className="textarea" placeholder="Post a comment..." onChange={event => setContent(event.target.value)} value={content}>{content}</textarea>
                 </p>
+                <ReactStars count={5} size={24} activeColor="#ffd700" isHalf={true} onChange={event => setRating((event) * 2)} value={rating} />
               </div>
               <div className="field">
                 <p className="control">
@@ -186,57 +313,22 @@ const singlePlace = (props) => {
                     <p className="username">
                       {!comment.user.username ? 'unknown' : comment.user.username}
                     </p>
-                    <p style={{ fontWeight: 'normal', paddingLeft: '70%' }}>
+                    <p>
                       ({moment(comment.created_at).fromNow()})
                     </p>
                   </div>
-                  {comment.rating !== 0 && <ReactStars value={(comment.rating) / 2} count={5} size={24} activeColor="#ffd700" edit={false} isHalf={true} />}
-                  <p>{comment.content}</p>
+                  <p className="comment-body">{comment.content}</p>
+                  {comment.rating !== 0 && <ReactStars value={(comment.rating) / 2} count={5} size={16} activeColor="#ffd700" edit={false} isHalf={true} />}
                 </div>
               </div>
               <div className="media-right">
-                <button className="delete" onClick={() => handleCommentDelete(comment.id)}>
-                </button>
+                {isCreator(comment.user.id) && <button className="delete" style={{ backgroundColor: '#B2022F' }} onClick={() => handleCommentDelete(comment.id)}>
+                </button>}
               </div>
             </article>
           })}
         </div>
       </div>
-
-      <aside className="menu" style={{ display: 'none' }}>
-        <p className="menu-label">
-          General
-        </p>
-        <ul className="menu-list">
-          <li><a>Dashboard</a></li>
-          <li><a>Customers</a></li>
-        </ul>
-        <p className="menu-label">
-          Administration
-        </p>
-        <ul className="menu-list">
-          <li><a>Team Settings</a></li>
-          <li>
-            <a className="is-active">Manage Your Team</a>
-            <ul>
-              <li><a>Members</a></li>
-              <li><a>Plugins</a></li>
-              <li><a>Add a member</a></li>
-            </ul>
-          </li>
-          <li><a>Invitations</a></li>
-          <li><a>Cloud Storage Environment Settings</a></li>
-          <li><a>Authentication</a></li>
-        </ul>
-        <p className="menu-label">
-          Transactions
-        </p>
-        <ul className="menu-list">
-          <li><a>Payments</a></li>
-          <li><a>Transfers</a></li>
-          <li><a>Balance</a></li>
-        </ul>
-      </aside>
     </div >
   </>
 }
