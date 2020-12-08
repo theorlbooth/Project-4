@@ -16,12 +16,12 @@ router = Blueprint(__name__, 'cities')
 
 
 @router.route('/cities/<city_id>', methods=['GET'])
-def get_country_data(city_id):
+def get_city_data(city_id):
 
   # ! CITY INFO
-  resp_city = requests.get(f'https://www.triposo.com/api/20201111/location.json?id={city_id}&fields=all&account={TRIPOSO_ACCOUNT}&token={TRIPOSO_API_KEY}')
+  resp_city = requests.get(f'https://www.triposo.com/api/20201111/location.json?id={city_id}&fields=id,intro,coordinates,score,country_id,content,attribution,climate&account={TRIPOSO_ACCOUNT}&token={TRIPOSO_API_KEY}')
   
-  resp_eat = requests.get(f'https://www.triposo.com/api/20201111/poi.json?location_id={city_id}tag_labels=eatingout&count=10&fields=id,name,score,intro,tag_labels,best_for&order_by=-score&account={TRIPOSO_ACCOUNT}&token={TRIPOSO_API_KEY}')
+  resp_eat = requests.get(f'https://www.triposo.com/api/20201111/poi.json?location_id={city_id}&tag_labels=eatingout&count=10&fields=id,name,score,intro,tag_labels,best_for&order_by=-score&account={TRIPOSO_ACCOUNT}&token={TRIPOSO_API_KEY}')
 
   resp_drink = requests.get(f'https://www.triposo.com/api/20201111/poi.json?location_id={city_id}&tag_labels=poitype-Bar&count=10&fields=id,name,score,intro,tag_labels,best_for&order_by=-score&account={TRIPOSO_ACCOUNT}&token={TRIPOSO_API_KEY}')
 
@@ -40,14 +40,14 @@ def get_country_data(city_id):
   #  ! eat
   results_eat_dict = resp_eat.json()
   results_eat_list = results_eat_dict['results']
-  results_eat = results_eat_list[0]
+  results_eat = results_eat_list
   
-    #  ! drink
+  #   #  ! drink
   results_drink_dict = resp_drink.json()
   results_drink_list = results_drink_dict['results']
-  results_drink = results_drink_list[0]
+  results_drink = results_drink_list
 
-  #  ! see
+  # #  ! see
   results_see_dict = resp_see.json()
   results_see_list = results_see_dict['results']
   results_see= results_see_list[0]
@@ -58,6 +58,6 @@ def get_country_data(city_id):
     "city_info": results_city,
     "eat": results_eat,
     "drink": results_drink,
-    "see": results_see
+    "see": results_see_list
   }
   return results
