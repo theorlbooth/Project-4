@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-// import MapGL, { Marker } from 'react-map-gl'
+import MapGL, { Marker } from 'react-map-gl'
 
 import { Link } from 'react-router-dom'
 

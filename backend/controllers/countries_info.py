@@ -20,7 +20,7 @@ router = Blueprint(__name__, 'countries_info')
 
 @router.route('/countries/<countrycode>', methods=['GET'])
 def get_country_data(countrycode):
-  resp = requests.get(f'https://www.triposo.com/api/20201111/location.json?tag_labels=country&countrycode={countrycode}&account={TRIPOSO_ACCOUNT}&token={TRIPOSO_API_KEY}')
+  resp = requests.get(f'https://www.triposo.com/api/20201111/location.json?tag_labels=country&countrycode={countrycode}&fields=all&account={TRIPOSO_ACCOUNT}&token={TRIPOSO_API_KEY}')
   
   results ={}
 
@@ -37,9 +37,10 @@ def get_country_data(countrycode):
   results2 = results2_dict['results']
  
 
-  
+
   results = {
     "country_info": results1,
     "top_cities": results2
   }
+  print(results)
   return results
