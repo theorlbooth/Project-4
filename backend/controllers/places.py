@@ -395,12 +395,13 @@ def get_single_place_id(id):
       'description': description,
       'score': score,
       'user_id': 1,
-      'tags': tag[1]
+      'tags': tag[1],
+      'folder': []
     }
     
 
     try:
-      place = place_schema.load(place_dictionary)
+      place = populate_place.load(place_dictionary)
 
     except ValidationError as e:
       return { 'errors': e.messages, 'message': 'hmmm' }
@@ -408,7 +409,7 @@ def get_single_place_id(id):
     place.save()
 
 
-  return place_schema.jsonify(place), 200
+  return populate_place.jsonify(place), 200
 
 
 

@@ -25,6 +25,40 @@
 }
 
 
+// * Plan Trip Page
+
+.plan-top {
+  display: flex;
+  justify-content: center;
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    border: solid 3px black;
+    border-radius: 10px;
+    padding: 30px;
+    max-width: 800px;
+    margin: 30px;
+
+    .day-time {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      .arrival-info {
+        display: flex;
+        margin: 10px;
+      }
+
+      .departure-info {
+        display: flex;
+        margin: 10px;
+      }
+    }
+  }
+
+}
+
 // * Single Place ------------
 
 .single-page {

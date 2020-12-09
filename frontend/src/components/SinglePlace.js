@@ -44,11 +44,13 @@ const singlePlace = (props) => {
       const { data: user } = await axios.get(`/api/users/${getUserId()}`, {
         headers: { Authorization: `Bearer ${token}` }
       })
+      console.log(user)
       updateUserInfo(user)
+      
       updateFutureFolders(user.folder.map(folder => {
         return folder
       }))
-      console.log(user)
+      
     }
 
     fetchData()
