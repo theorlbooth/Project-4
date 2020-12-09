@@ -47,13 +47,13 @@ def get_country_data(countrycode):
 
   # ! URL NOT FOUND FOR THESE... WHAT AM I MISSING??
   @router.route('/country_search/<search>', methods=['GET'])
-  def get_matching_countrires(search):
+  def get_matching_countries(search):
     resp = requests.get(f'https://www.triposo.com/api/20201111/location.json?tag_labels=country&annotate=trigram:{search}&trigram=>=0.3&count=1&fields=all&account={TRIPOSO_ACCOUNT}&token={TRIPOSO_API_KEY}')
 
     return resp.json()
 
   @router.route('/city_search/<search>', methods=['GET'])
-  def get_matching_countrires(search):
+  def get_matching_cities(search):
     resp = requests.get(f'https://www.triposo.com/api/20201111/location.json?tag_labels=city&annotate=trigram:{search}&trigram=>=0.3&count=1&fields=all&account={TRIPOSO_ACCOUNT}&token={TRIPOSO_API_KEY}')
 
     return resp.json()
