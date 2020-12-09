@@ -411,3 +411,18 @@ def get_single_place_id(id):
   return place_schema.jsonify(place), 200
 
 
+
+
+@router.route('/day_plan/<string:location>/<string:start_date>/<string:arr_time>/<string:end_date>/<string:dep_time>', methods=['GET'])
+def get_trip_plan(location, start_date, arr_time, end_date, dep_time):
+
+  resp = requests.get(f'https://www.triposo.com/api/20201111/day_planner.json?location_id={location}&start_date={start_date}&arrival_time={arr_time}&end_date={end_date}&departure_time={dep_time}&account={TRIPOSO_ACCOUNT}&token={TRIPOSO_API_KEY}')
+
+  if not resp:
+    return { 'message': 'No resp!' }, 404
+  
+  print(resp)
+
+  results = resp.json()
+  return results
+

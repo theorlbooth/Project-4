@@ -15,6 +15,7 @@ import SingleFolder from './components/SingleFolder'
 import Country from './components/Country'
 import PublicFolders from './components/PublicFolders'
 import City from './components/City'
+import TripPlanner from './components/TripPlanner'
 
 
 const App = () => {
@@ -32,6 +33,8 @@ const App = () => {
       <Route exact path="/folders" component={PublicFolders}></Route>
       <Route exact path="/country/:location_id" component={Country}></Route>
       <Route exact path="/city/:city_id" component={City}></Route>
+      {/* <Route exact path="/cities/:city_id" component={City}></Route> */}
+      <Route exact path="/trip_planner" component={TripPlanner}></Route>
     </Switch>
   </BrowserRouter>
   </>
