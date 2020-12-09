@@ -12,9 +12,10 @@ const Explore = () => {
   const [search, updateSearch] = useState('')
   const [searchType, updateSearchType] = useState('')
   const [searchID, updateSearchID] = useState('')
+  const [marker, setMarker] = useState('')
   
   const [viewPort, setViewPort] = useState({
-    height: '100vh',
+    height: '50vh',
     width: '100vw', 
     zoom: 1.5,
     latitude: 54.5260,
@@ -29,12 +30,14 @@ const Explore = () => {
   }, [])
 
   function handleSubmit(search) {
-    if (searchType === 'type_country') {
+    if (searchType === 'country') {
       axios.get(`/api/country_search/${search}`)
         .then(resp => {
           updateSearchID(resp.data.results[0].id)
           console.log(resp.data.results[0].id)
         })
+      // const id = await searchID
+      // console.log(id)
     } else {
       axios.get(`/api/city_search/${search}`)
         .then(resp => {
@@ -43,7 +46,16 @@ const Explore = () => {
         })
     }
   }
+  useEffect(() => {
+    if (viewPort.zoom > 3) {
+      setMarker("https://img.icons8.com/material/24/000000/marker--v1.png")
+    } else if (viewPort.zoom <= 3) {
+      setMarker('')
+    }
+    
+  })
 
+  
   // useEffect((props) => {
   //   console.log(searchID)
   //   if (searchType === 'type_country' && searchID !== '') {
@@ -64,7 +76,7 @@ const Explore = () => {
               <input 
                 className="input" 
                 type="text" 
-                placeholder="Search" 
+                placeholder="Find a place.." 
                 onChange={(event) => updateSearch(event.target.value)}
                 value={search}
               />
@@ -74,11 +86,11 @@ const Explore = () => {
             <div className="control">
               SEARCH BY:   
               <label className="radio">
-                <input type="radio" name="question" onClick={() => updateSearchType('type_country')}/>
+                <input type="radio" name="question" onClick={() => updateSearchType('country')}/>
                   COUNTRY
               </label>
               <label className="radio">
-                <input type="radio" name="question" onClick={() => updateSearchType('type_city')}/>
+                <input type="radio" name="question" onClick={() => updateSearchType('city')}/>
                 CITY
               </label>
               {/* <label className="radio">
@@ -87,14 +99,18 @@ const Explore = () => {
               </label> */}
             </div>
           </div>
+          <div>
+            { searchID ? <p>Suggested: {searchID}</p> : ''}
+          </div>
           <div className="field is-grouped">
             <div className="control">
-              <button className="button is-dark is-link" onClick={() => handleSubmit(search)}>Search</button>
+              <button className="button is-dark is-link" onClick={() => handleSubmit(search)}>Check</button>
             </div>
             <div className="control">
-              <Link to={`country/${searchID}`}>
-                <button className="button is-dark is-link">Go</button>
+              <Link to={`${searchType}/${searchID}`}>
+                <button className="button is-dark is-link">Search</button>
               </Link>
+              {/* <button className="button is-dark is-link" onClick={() => handleGo()}>Go</button> */}
             </div>
           </div>
         </div>
@@ -116,7 +132,7 @@ const Explore = () => {
                 latitude={country.lat}
                 longitude={country.long}
               >
-                <img className="marker" src="https://img.icons8.com/material/24/000000/marker--v1.png" />
+                <img className="marker" src={marker} />
               </Marker>
             </Link>
           })}

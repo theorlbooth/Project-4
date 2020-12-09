@@ -37,16 +37,16 @@ const Country = (props) => {
 
   console.log(country)
   console.log(cities)
-  const sections = []
+  // const sections = []
 
-  if (country.content) {
-    const content = country.content
-    const sections = content.sections
-    console.log(sections[0].body)
-    return sections
-  }
+  // if (country.content) {
+  //   const content = country.content
+  //   const sections = content.sections
+  //   console.log(sections[0].body)
+  //   return sections
+  // }
   
-  console.log(sections)
+  // console.log(sections)
 
   return <div className="container">
     <div className="country_info">
@@ -61,16 +61,20 @@ const Country = (props) => {
       {/* <img src={country.images[0].sizes.medium.url} alt="hmm" /> */}
     </div> 
    
-    {/* <div className="top-cities">
+    <div className="top-cities">
       <h1>TOP CITIES:</h1>
       {cities.map((city, index) => {
         
         return <div key={index}>
-          <h1>Name: {city.name}</h1>
-          <p>Info: {city.snippet}</p>
+          <Link to={`/city/${city.id}`}>
+            <div className="card">
+              <h1>Name: {city.name}</h1>
+              <p>Info: {city.snippet}</p>
+            </div>
+          </Link>
         </div>
       })}
-    </div> */}
+    </div>
 
   </div>
 }
