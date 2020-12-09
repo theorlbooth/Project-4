@@ -23,7 +23,7 @@ const Navbar = (props) => {
               <Link className="button is-black" to="/search">Search</Link>
               <Link className="button is-black" to="/folders">Folders</Link>
               <Link className="button is-black" to="/explore">Explore</Link>
-              <Link className="button is-black" to="/trip_planner">Trip Planner</Link>
+              {token && <Link className="button is-black" to="/trip_planner">Trip Planner</Link>}
               {token && <Link className="button is-black" to={`/user/${getUserId()}`}>User</Link>}
               {!token && <Link className="button is-black" to="/login">Login</Link>}
               {token && <Link className="button is-black" to="/" onClick={handleLogout}>Logout</Link>}

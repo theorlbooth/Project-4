@@ -55,10 +55,10 @@ const Login = (props) => {
         </div>
         <div className="login-buttons">
           <div className="control button-flex">
-            <button className="button is-black">Login</button>
+            <button style={{ border: '3px solid white' }} className="button is-black">Login</button>
           </div>
           <div className="control button-flex">
-            <Link className="button is-danger" to={'/register'}>Register</Link>
+            <Link style={{ border: '3px solid white' }} className="button is-danger" to={'/register'}>Register</Link>
           </div>
         </div>
       </form>

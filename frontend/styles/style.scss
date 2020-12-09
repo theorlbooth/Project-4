@@ -1,17 +1,40 @@
 
 
+// ! Think about below
+
+html {
+  background-image: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url('https://images.unsplash.com/photo-1501868984184-76121ed6a6e2?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+// ! ------------
+
 .register {
-  height: 90vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-image: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url('https://images.unsplash.com/photo-1462043103994-3eb31d19a057?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  
 }
 
 .form {
-  border: solid 3px black;
+  border: solid 3px white;
   border-radius: 10px;
   padding: 30px;
+  background: rgba(0, 0, 0, 0.5);
+
+  .label {
+    color: white
+  }
 }
 
 .login-buttons {
@@ -27,43 +50,69 @@
 
 // * Plan Trip Page
 
-.plan-top {
-  display: flex;
-  justify-content: center;
-  
-  .form {
+
+.plan-trip {
+  background-image: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url('https://images.unsplash.com/photo-1501868984184-76121ed6a6e2?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  height: 100vh;
+  min-width: 100%;
+  min-height: 100%;
+
+  .plan-top {
     display: flex;
-    flex-direction: column;
-    border: solid 3px black;
-    border-radius: 10px;
-    padding: 30px;
-    max-width: 800px;
-    margin: 30px;
-
-    .day-time {
+    justify-content: center;
+    
+    .label {
+      color: white;
+    }
+    
+    .form {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      
-      .arrival-info {
+      flex-direction: column;
+      border: solid 3px white;
+      border-radius: 10px;
+      padding: 30px;
+      max-width: 800px;
+      margin: 30px;
+      color: white;
+      background: rgba(0, 0, 0, 0.5);
+  
+      .day-time {
         display: flex;
-        margin: 10px;
-      }
-
-      .departure-info {
-        display: flex;
-        margin: 10px;
+        align-items: center;
+        justify-content: center;
+        
+        .arrival-info {
+          display: flex;
+          margin: 10px;
+        }
+  
+        .departure-info {
+          display: flex;
+          margin: 10px;
+        }
       }
     }
+  
   }
-
 }
+
+
 
 // * Single Place ------------
 
 .single-page {
   display: flex;
   height: 100vh;
+  background-image: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url('https://images.unsplash.com/photo-1456425731181-2152d80d946c?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1351&q=80');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  
 
   .single-page-left {
     display: flex;
@@ -73,6 +122,7 @@
     h1 {
       font-size: 50px;
       text-align: center;
+      color:white;
     }
 
     .address {
@@ -80,6 +130,7 @@
       flex-direction: column;
       align-items: center;
       margin: 20px;
+      color:white;
     }
 
     .country-info {
@@ -87,6 +138,7 @@
       justify-content: space-evenly;
       align-items: center;
       margin: 20px;
+      color:white;
 
       .flag {
         font-size: 60px;
@@ -96,6 +148,7 @@
     .blurb {
       margin: 20px;
       text-align: center;
+      color:white;
     }
   }
 
@@ -108,7 +161,7 @@
       height: 80vh;
       overflow: auto;
       margin: 40px 0px;
-      background: rgba(0, 0, 0, 0.1);
+      background: rgba(0, 0, 0, 0.5);
       border: 3px solid white;
       border-radius: 10px;
       padding: 10px;
@@ -143,10 +196,10 @@
 /* Position and sizing of burger button */
 .bm-burger-button {
   position: fixed;
-  width: 36px;
-  height: 30px;
+  width: 50px;
+  height: 50px;
   left: 36px;
-  top: 36px;
+  top: 5px;
 }
 
 /* Color/shape of burger icon bars */
@@ -184,6 +237,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
   background: #373a47;
   padding: 2.5em 1.5em 0;
   font-size: 1.15em;
+  width: 280px !important;
 }
 
 /* Morph shape necessary with bubble or elastic */
@@ -212,6 +266,12 @@ Note: Beware of modifying this element as it can break the animations - you shou
 .user-page {
   display: flex;
   flex-direction: column;
+  background-image: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url('https://images.unsplash.com/photo-1452421822248-d4c2b47f0c81?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1267&q=80');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  height: 100vh;
 
   .top-half {
     display: flex;
@@ -244,12 +304,17 @@ Note: Beware of modifying this element as it can break the animations - you shou
 .folders-page {
   display: flex;
   flex-direction: column;
+  background-image: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url('https://images.unsplash.com/photo-1504609773096-104ff2c73ba4?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  height: 100vh;
 
   .top-half {
     display: flex;
     flex-direction: column;
     align-items: center;
-    border-bottom: solid 2px lightgrey;
     margin-bottom: 30px;
     
     h1 {

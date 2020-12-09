@@ -80,136 +80,140 @@ const tripPlanner = () => {
 
   if (page === false) {
     return <>
-      <div className="plan-top">
-        <form className="form" onSubmit={handleSubmit}>
-          <div className="field">
-            <label className="label">City:</label>
-            <div className="control">
-              <input className="input" type="text" placeholder="City:" onChange={handleChange} value={formData.location} name="location" />
-            </div>
-          </div>
-          <div className="day-time">
-            <div className="arrival-info">
-              <div className="field" style={{ margin: '5px' }}>
-                <label className="label">Arrival Date:</label>
-                <div className="control">
-                  <DatePicker onChange={setStartDate} value={startDate} name="start_date" format="dd-MM-y" />
-                </div>
-              </div>
-              <div className="field" style={{ margin: '5px' }}>
-                <label className="label">Arrival Time:</label>
-                <div className="control">
-                  <TimePicker onChange={setArrTime} value={arrTime} name="arr_time" />
-                </div>
+      <div className="plan-trip">
+        <div className="plan-top">
+          <form className="form" onSubmit={handleSubmit}>
+            <div className="field">
+              <label className="label">City:</label>
+              <div className="control">
+                <input className="input" type="text" placeholder="City:" onChange={handleChange} value={formData.location} name="location" />
               </div>
             </div>
-            <br />
-            <div className="departure-info">
-              <div className="field" style={{ margin: '5px' }}>
-                <label className="label">Departure Date:</label>
-                <div className="control">
-                  <DatePicker onChange={setEndDate} value={endDate} name="end_date" format="dd-MM-y" />
+            <div className="day-time">
+              <div className="arrival-info">
+                <div className="field" style={{ margin: '5px' }}>
+                  <label className="label">Arrival Date:</label>
+                  <div className="control">
+                    <DatePicker onChange={setStartDate} value={startDate} name="start_date" format="dd-MM-y" />
+                  </div>
+                </div>
+                <div className="field" style={{ margin: '5px' }}>
+                  <label className="label">Arrival Time:</label>
+                  <div className="control">
+                    <TimePicker onChange={setArrTime} value={arrTime} name="arr_time" />
+                  </div>
                 </div>
               </div>
-              <div className="field" style={{ margin: '5px' }}>
-                <label className="label">Departure Time:</label>
-                <div className="control">
-                  <TimePicker onChange={setDepTime} value={depTime} name="dep_time" />
+              <br />
+              <div className="departure-info">
+                <div className="field" style={{ margin: '5px' }}>
+                  <label className="label">Departure Date:</label>
+                  <div className="control">
+                    <DatePicker onChange={setEndDate} value={endDate} name="end_date" format="dd-MM-y" />
+                  </div>
+                </div>
+                <div className="field" style={{ margin: '5px' }}>
+                  <label className="label">Departure Time:</label>
+                  <div className="control">
+                    <TimePicker onChange={setDepTime} value={depTime} name="dep_time" />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="login-buttons">
-            <div className="control buttonflex">
-              <button className="button is-black">Submit</button>
+            <div className="login-buttons">
+              <div className="control buttonflex">
+                <button style={{ border: 'solid 3px white' }} className="button is-black">Submit</button>
+              </div>
             </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </>
   } else {
 
 
     return <>
-      <div className="plan-top">
-        <form className="form" onSubmit={handleSubmit}>
-          <div className="field">
-            <label className="label">City:</label>
-            <div className="control">
-              <input className="input" type="text" placeholder="City:" onChange={handleChange} value={formData.location} name="location" />
-            </div>
-          </div>
-          <div className="day-time">
-            <div className="arrival-info">
-              <div className="field" style={{ margin: '5px' }}>
-                <label className="label">Arrival Date:</label>
-                <div className="control">
-                  <DatePicker onChange={setStartDate} value={startDate} name="start_date" format="dd-MM-y" />
-                </div>
-              </div>
-              <div className="field" style={{ margin: '5px' }}>
-                <label className="label">Arrival Time:</label>
-                <div className="control">
-                  <TimePicker onChange={setArrTime} value={arrTime} name="arr_time" />
-                </div>
+      <div className="plan-trip">
+        <div className="plan-top">
+          <form className="form" onSubmit={handleSubmit}>
+            <div className="field">
+              <label className="label">City:</label>
+              <div className="control">
+                <input className="input" type="text" placeholder="City:" onChange={handleChange} value={formData.location} name="location" />
               </div>
             </div>
-            <br />
-            <div className="departure-info">
-              <div className="field" style={{ margin: '5px' }}>
-                <label className="label">Departure Date:</label>
-                <div className="control">
-                  <DatePicker onChange={setEndDate} value={endDate} name="end_date" format="dd-MM-y" />
+            <div className="day-time">
+              <div className="arrival-info">
+                <div className="field" style={{ margin: '5px' }}>
+                  <label className="label">Arrival Date:</label>
+                  <div className="control">
+                    <DatePicker onChange={setStartDate} value={startDate} name="start_date" format="dd-MM-y" />
+                  </div>
                 </div>
-              </div>
-              <div className="field" style={{ margin: '5px' }}>
-                <label className="label">Departure Time:</label>
-                <div className="control">
-                  <TimePicker onChange={setDepTime} value={depTime} name="dep_time" />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="login-buttons">
-            <div className="control buttonflex">
-              <button className="button is-black">Submit</button>
-            </div>
-          </div>
-        </form>
-      </div>
-
-      <div className="plan-bottom">
-        <div className="columns is-multiline is-mobile" style={{ display: 'flex', justifyContent: 'center' }}>
-          {planData.map((day, index) => {
-            return <div className="column is-2-desktop is-6-tablet is-12-mobile" key={index}>
-              <div className="card" style={{ backgroundColor: '#5AAC84', textAlign: 'center' }}>
-                <div className="card-content">
-                  <div className="media-content">
-                    <h1 className="title is-4">{moment(day.date).format('DD-MMM')}</h1>
+                <div className="field" style={{ margin: '5px' }}>
+                  <label className="label">Arrival Time:</label>
+                  <div className="control">
+                    <TimePicker onChange={setArrTime} value={arrTime} name="arr_time" />
                   </div>
                 </div>
               </div>
-              {day.itinerary_items.map((item, index) => {
-                return <div key={index} className="card">
-                  <Link to={`/places/${item.poi.id}`}>
-                    <div className="card-content">
-                      <div className="media-content">
-                        <h3 className="title is-5" style={{ color: '#5AAC84', textDecoration: 'underline' }}>{upperCase((item.title === '' ? 'Next' : item.title))}</h3>
-                        <h2 className="title is-4">{item.poi.name}</h2>
-                        <div className="card-image">
-                          <figure className="image is-square">
-                            <img src={(item.poi.images.length !== 0 ? item.poi.images[0].source_url : 'https://www.dia.org/sites/default/files/No_Img_Avail.jpg')} alt={item.poi.name} />
-                          </figure>
-                        </div>
-                        <p className="subtitle is-6" style={{ textAlign: 'center', margin: '10px 0px' }}>{item.description}</p>
-                        <ReactStars value={(item.poi.score) / 2} count={5} size={15} activeColor="#ffd700" edit={false} isHalf={true} style={{ alignSelf: 'center' }} />
-                      </div>
-                    </div>
-                  </Link>
+              <br />
+              <div className="departure-info">
+                <div className="field" style={{ margin: '5px' }}>
+                  <label className="label">Departure Date:</label>
+                  <div className="control">
+                    <DatePicker onChange={setEndDate} value={endDate} name="end_date" format="dd-MM-y" />
+                  </div>
                 </div>
-              })}
+                <div className="field" style={{ margin: '5px' }}>
+                  <label className="label">Departure Time:</label>
+                  <div className="control">
+                    <TimePicker onChange={setDepTime} value={depTime} name="dep_time" />
+                  </div>
+                </div>
+              </div>
             </div>
-          })}
+            <div className="login-buttons">
+              <div className="control buttonflex">
+                <button className="button is-ghost">Submit</button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div className="plan-bottom">
+          <div className="columns is-multiline is-mobile" style={{ display: 'flex', justifyContent: 'center' }}>
+            {planData.map((day, index) => {
+              return <div className="column is-2-desktop is-6-tablet is-12-mobile" key={index}>
+                <div className="card" style={{ backgroundColor: '#5AAC84', textAlign: 'center' }}>
+                  <div className="card-content">
+                    <div className="media-content">
+                      <h1 className="title is-4">{moment(day.date).format('DD-MMM')}</h1>
+                    </div>
+                  </div>
+                </div>
+                {day.itinerary_items.map((item, index) => {
+                  return <div key={index} className="card" style={{ margin: '5px 0px' }}>
+                    <Link to={`/places/${item.poi.id}`}>
+                      <div className="card-content">
+                        <div className="media-content">
+                          <h3 className="title is-5" style={{ color: '#5AAC84', textDecoration: 'underline' }}>{upperCase((item.title === '' ? 'Next' : item.title))}</h3>
+                          <h2 className="title is-4">{item.poi.name}</h2>
+                          <div className="card-image">
+                            <figure className="image is-square">
+                              <img src={(item.poi.images.length !== 0 ? item.poi.images[0].source_url : 'https://www.dia.org/sites/default/files/No_Img_Avail.jpg')} alt={item.poi.name} />
+                            </figure>
+                          </div>
+                          <p className="subtitle is-6" style={{ textAlign: 'center', margin: '10px 0px' }}>{item.description}</p>
+                          <ReactStars value={(item.poi.score) / 2} count={5} size={15} activeColor="#ffd700" edit={false} isHalf={true} style={{ alignSelf: 'center' }} />
+                        </div>
+                      </div>
+                    </Link>
+                  </div>
+                })}
+              </div>
+            })}
+          </div>
         </div>
       </div>
     </>

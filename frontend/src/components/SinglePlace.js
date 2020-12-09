@@ -223,7 +223,7 @@ const singlePlace = (props) => {
   return <>
     <div className="single-page">
 
-      <Menu right >
+      {token && <Menu customBurgerIcon={<img src="../styles/images/folder-multiple.png" />} >
         <p style={{ textAlign: 'center' }}>--- NEW FOLDER ---</p>
         <br />
         <a className="menu-item" style={{ textAlign: 'center' }} onClick={openNewModal}>New</a>
@@ -243,7 +243,7 @@ const singlePlace = (props) => {
           </div>
         })}
         <br />
-      </Menu>
+      </Menu>}
 
       <Modal isOpen={newModalIsOpen} onRequestClose={closeNewModal} style={customStyle} contentLabel="New Modal">
         <p>Name:</p>
@@ -327,14 +327,14 @@ const singlePlace = (props) => {
               <div className="media-content">
                 <div className="content">
                   <div className="user-time" style={{ display: 'flex' }}>
-                    <p className="username">
+                    <p style={{ color: 'white' }} className="username">
                       {!comment.user.username ? 'unknown' : comment.user.username}
                     </p>
-                    <p>
+                    <p style={{ color: 'white' }} >
                       ({moment(comment.created_at).fromNow()})
                     </p>
                   </div>
-                  <p className="comment-body">{comment.content}</p>
+                  <p style={{ color: 'white' }} className="comment-body">{comment.content}</p>
                   {comment.rating !== 0 && <ReactStars value={(comment.rating) / 2} count={5} size={16} activeColor="#ffd700" edit={false} isHalf={true} />}
                 </div>
               </div>

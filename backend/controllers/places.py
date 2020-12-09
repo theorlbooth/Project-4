@@ -226,7 +226,6 @@ def create_folder_2():
 
 # * Get folder ------------
 @router.route('/folders/<int:id>', methods=['GET'])
-@secure_route
 def get_folder(id):
   folder = Folder.query.get(id)
 
@@ -238,7 +237,6 @@ def get_folder(id):
 
 # * Get all folders ------------
 @router.route('/folders', methods=['GET'])
-@secure_route
 def get_folders():
   folders = Folder.query.all()
 
