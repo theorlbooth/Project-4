@@ -21,11 +21,11 @@ def get_city_data(city_id):
   # ! CITY INFO
   resp_city = requests.get(f'https://www.triposo.com/api/20201111/location.json?id={city_id}&fields=id,intro,coordinates,score,country_id,content,attribution,climate&account={TRIPOSO_ACCOUNT}&token={TRIPOSO_API_KEY}')
   
-  resp_eat = requests.get(f'https://www.triposo.com/api/20201111/poi.json?location_id={city_id}&tag_labels=eatingout&count=9&fields=id,name,score,intro,tag_labels,best_for&order_by=-score&account={TRIPOSO_ACCOUNT}&token={TRIPOSO_API_KEY}')
+  resp_eat = requests.get(f'https://www.triposo.com/api/20201111/poi.json?location_id={city_id}&tag_labels=eatingout&count=5&fields=id,name,score,intro,tag_labels,best_for&order_by=-score&account={TRIPOSO_ACCOUNT}&token={TRIPOSO_API_KEY}')
 
-  resp_drink = requests.get(f'https://www.triposo.com/api/20201111/poi.json?location_id={city_id}&tag_labels=poitype-Bar&count=9&fields=id,name,score,intro,tag_labels,best_for&order_by=-score&account={TRIPOSO_ACCOUNT}&token={TRIPOSO_API_KEY}')
+  resp_drink = requests.get(f'https://www.triposo.com/api/20201111/poi.json?location_id={city_id}&tag_labels=poitype-Bar&count=5&fields=id,name,score,intro,tag_labels,best_for&order_by=-score&account={TRIPOSO_ACCOUNT}&token={TRIPOSO_API_KEY}')
 
-  resp_see = requests.get(f'https://www.triposo.com/api/20201111/poi.json?location_id={city_id}&tag_labels=sightseeing&count=9&fields=id,name,score,intro,tag_labels,best_for&order_by=-score&account={TRIPOSO_ACCOUNT}&token={TRIPOSO_API_KEY}')
+  resp_see = requests.get(f'https://www.triposo.com/api/20201111/poi.json?location_id={city_id}&tag_labels=sightseeing&count=5&fields=id,name,score,intro,tag_labels,best_for&order_by=-score&account={TRIPOSO_ACCOUNT}&token={TRIPOSO_API_KEY}')
 
   results ={}
 
