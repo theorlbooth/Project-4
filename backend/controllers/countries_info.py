@@ -45,16 +45,53 @@ def get_country_data(countrycode):
   print(results)
   return results
 
+@router.route('/countries_by_location/<location_id>', methods=['GET'])
+def get_country_data_by_location(location_id):
+  resp = requests.get(f'https://www.triposo.com/api/20201111/location.json?tag_labels=country&id={location_id}&fields=all&account={TRIPOSO_ACCOUNT}&token={TRIPOSO_API_KEY}')
+  
+  results ={}
+
+  print(resp)
+  if not resp:
+    return { 'message': 'no bueno' }, 404
+
+  results_dict = resp.json()
+  results_list = results_dict['results']
+  results1 = results_list[0]
+
+  resp2 = requests.get(f'https://www.triposo.com/api/20201111/location.json?id={location_id}&tag_labels=city&count=10&fields=id,name,score,snippet&order_by=-score&account={TRIPOSO_ACCOUNT}&token={TRIPOSO_API_KEY}')
+  results2_dict = resp2.json()
+  results2 = results2_dict['results']
+ 
+
+
+  results = {
+    "country_info": results1,
+    "top_cities": results2
+  }
+  print(results)
+  return results
+
   # ! URL NOT FOUND FOR THESE... WHAT AM I MISSING??
-  @router.route('/country_search/<search>', methods=['GET'])
-  def get_matching_countrires(search):
-    resp = requests.get(f'https://www.triposo.com/api/20201111/location.json?tag_labels=country&annotate=trigram:{search}&trigram=>=0.3&count=1&fields=all&account={TRIPOSO_ACCOUNT}&token={TRIPOSO_API_KEY}')
+@router.route('/country_search/<search>', methods=['GET'])
+def get_matching_countrires(search):
+  resp = requests.get(f'https://www.triposo.com/api/20201111/location.json?tag_labels=country&annotate=trigram:{search}&trigram=>=0.3&count=10&fields=id,name&order_by=-trigram&account={TRIPOSO_ACCOUNT}&token={TRIPOSO_API_KEY}')
 
-    return resp.json()
+  # json = resp.json
+  # results = json['results']
+  # first = results[0]
+  # location_id = first['id']
+  # id = {
+  #   "id": location_id
+  # }
+  
 
-  @router.route('/city_search/<search>', methods=['GET'])
-  def get_matching_countrires(search):
-    resp = requests.get(f'https://www.triposo.com/api/20201111/location.json?tag_labels=city&annotate=trigram:{search}&trigram=>=0.3&count=1&fields=all&account={TRIPOSO_ACCOUNT}&token={TRIPOSO_API_KEY}')
+  
+  return resp.json()
 
-    return resp.json()
+@router.route('/city_search/<search>', methods=['GET'])
+def get_matching_cities(search):
+  resp = requests.get(f'https://www.triposo.com/api/20201111/location.json?tag_labels=city&annotate=trigram:{search}&trigram=>=0.3&count=10&fields=id,name&order_by=-trigram&account={TRIPOSO_ACCOUNT}&token={TRIPOSO_API_KEY}')
+
+  return resp.json()
 

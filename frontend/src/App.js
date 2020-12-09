@@ -30,7 +30,7 @@ const App = () => {
       <Route exact path="/user/:id" component={User}></Route>
       <Route exact path="/folders/:id" component={SingleFolder}></Route>
       <Route exact path="/folders" component={PublicFolders}></Route>
-      <Route exact path="/country/:countrycode" component={Country}></Route>
+      <Route exact path="/country/:location_id" component={Country}></Route>
       <Route exact path="/cities/:city_id" component={City}></Route>
     </Switch>
   </BrowserRouter>

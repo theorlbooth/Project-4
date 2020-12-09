@@ -5,6 +5,7 @@ import MapGL, { Marker } from 'react-map-gl'
 import { Link } from 'react-router-dom'
 
 
+
 const Explore = () => {
 
   const [countries, updateCountries] = useState([])
@@ -32,23 +33,30 @@ const Explore = () => {
       axios.get(`/api/country_search/${search}`)
         .then(resp => {
           updateSearchID(resp.data.results[0].id)
+          console.log(resp.data.results[0].id)
         })
     } else {
       axios.get(`/api/city_search/${search}`)
         .then(resp => {
           updateSearchID(resp.data.results[0].id)
+          console.log(resp.data.results[0].id)
         })
     }
   }
 
-  useEffect(() => {
-    console.log(searchID)
-  }, [searchID])
+  // useEffect((props) => {
+  //   console.log(searchID)
+  //   if (searchType === 'type_country' && searchID !== '') {
+  //     props.history.push(`/country/${searchID}`)
+  //   } else if (searchType === 'type_city' && searchID !== '') {
+  //     console.log('city')
+  //   } else return
+  // }, [searchID])
 
 
   return <div>
 
-    <section className="hero is-primary is-medium">
+    <section className="hero is-light is-small">
       <div className="hero-body">
         <div className="container">
           <div className="field">
@@ -81,7 +89,12 @@ const Explore = () => {
           </div>
           <div className="field is-grouped">
             <div className="control">
-              <button className="button is-link" onClick={() => handleSubmit(search)}>Search</button>
+              <button className="button is-dark is-link" onClick={() => handleSubmit(search)}>Search</button>
+            </div>
+            <div className="control">
+              <Link to={`country/${searchID}`}>
+                <button className="button is-dark is-link">Go</button>
+              </Link>
             </div>
           </div>
         </div>

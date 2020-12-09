@@ -8,12 +8,31 @@ const Country = (props) => {
   const [cities, updateCities] = useState([])
 
   useEffect(() => {
-    axios.get(`/api/countries/${props.match.params.countrycode}`)
-      .then(resp => {
-        updateCountry(resp.data.country_info)
-        updateCities(resp.data.top_cities)
-      })
+    const locationId = props.match.params.location_id
+    console.log(locationId)
+    
+    if (locationId.length > 2) {
+      axios.get(`/api/countries_by_location/${locationId}`)
+        .then(resp => {
+          updateCountry(resp.data.country_info)
+          updateCities(resp.data.top_cities)
+        })
+    } else {
+      axios.get(`/api/countries/${locationId}`)
+        .then(resp => {
+          updateCountry(resp.data.country_info)
+          updateCities(resp.data.top_cities)
+        })
+    }
   }, [])
+ 
+ 
+  //   axios.get(`/api/countries_by_location/${locationId}`)
+  //     .then(resp => {
+  //       updateCountry(resp.data.country_info)
+  //       updateCities(resp.data.top_cities)
+  //     })
+  // }, [])
 //  ! FOR SOME REASON THE COUNTRY.COUNTRY_INFO DOES NOT WORK
 
   console.log(country)
@@ -42,7 +61,7 @@ const Country = (props) => {
       {/* <img src={country.images[0].sizes.medium.url} alt="hmm" /> */}
     </div> 
    
-    <div className="top-cities">
+    {/* <div className="top-cities">
       <h1>TOP CITIES:</h1>
       {cities.map((city, index) => {
         
@@ -51,7 +70,7 @@ const Country = (props) => {
           <p>Info: {city.snippet}</p>
         </div>
       })}
-    </div>
+    </div> */}
 
   </div>
 }
