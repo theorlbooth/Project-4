@@ -18,7 +18,7 @@ const Navbar = (props) => {
       <div className="navbar-menu">
         <div className="navbar-end">
           <div className="navbar-item">
-            <div className="buttons">
+            <div className="buttons" style={{ opacity: '90%' }}>
               {/* <Link className="button is-black" to="/">Home</Link> */}
               {/* <Link className="button is-black" to="/search">Search</Link> */}
               <Link className="button is-black" style={{ color: '#F4ECD8' }} to="/explore">Explore</Link>
