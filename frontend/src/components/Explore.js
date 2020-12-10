@@ -69,7 +69,7 @@ const Explore = () => {
 
   return <div>
 
-    <section className="hero is-light is-small">
+    <section className="hero is-light is-small" style={{ backgroundColor: '#F4ECD8' }}>
       <div className="hero-body">
         <div className="container">
           <div className="field">
@@ -100,9 +100,9 @@ const Explore = () => {
               </label> */}
             </div>
           </div>
-          <div>
+          {/* <div>
             { searchID ? <p>Suggested: {searchID}</p> : ''}
-          </div>
+          </div> */}
           <div className="field is-grouped">
             <div className="control">
               <button disabled={ searchType === '' ? true : false } className="button is-dark" onClick={() => handleSubmit(search)}>Check</button>

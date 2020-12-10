@@ -65,14 +65,14 @@ const Country = (props) => {
     <section className="Section">
       <section className="hero is-dark">
         <div className="hero-body">
-          <div className="container">
-            <h1 className="title">
+          <div className="container" style={{ color: '#F4ECD8' }}>
+            <h1 className="title" style={{ color: '#F4ECD8' }}>
               {country.name}
             </h1>
             {/* <h2 className="subtitle">
               {city.country_id}
             </h2> */}
-            <p>{country.intro}</p>
+            <p style={{ color: '#F4ECD8' }}>{country.intro}</p>
           </div>
         </div>
       </section>
@@ -85,7 +85,7 @@ const Country = (props) => {
             <img src={image} />
           </figure>
           <div className="media-content">
-            <p style={{ color: 'white' }}>{description}</p>
+            <p style={{ color: '#F4ECD8' }}>{description}</p>
           </div>
         </article>
       </div>

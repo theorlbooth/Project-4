@@ -58,11 +58,11 @@ const City = (props) => {
     <section className="Section">
       <section className="hero is-dark">
         <div className="hero-body">
-          <div className="container">
-            <h1 className="title">
+          <div className="container" style={{ color: '#F4ECD8' }}>
+            <h1 className="title" style={{ color: '#F4ECD8' }}>
               {name}
             </h1>
-            <h2 className="subtitle">
+            <h2 className="subtitle" style={{ color: '#F4ECD8' }}>
               {city.country_id}
             </h2>
             <p>{cleanCityDescription}</p>

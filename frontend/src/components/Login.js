@@ -49,7 +49,7 @@ const Login = (props) => {
         <div className="field">
           <label className="label">Password:</label>
           <div className="control">
-            <input className="input" type="text" placeholder="Password" onChange={handleChange} value={formData.password} name="password" />
+            <input className="input" type="password" placeholder="Password" onChange={handleChange} value={formData.password} name="password" />
             {errors && <p style={{ color: 'red' }}>{errors}</p>}
           </div>
         </div>
