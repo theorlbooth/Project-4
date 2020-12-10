@@ -12,7 +12,7 @@ const Home = () => {
     <section style={{ height: '80vh'}}>
       <div className="container main-container">
         <Link to="/explore">
-          <h1 className="title">
+          <h1 className="title" style={{ color: 'white' }}>
           FIND YOUR NEXT ADVENTURE
           </h1>
         </Link>

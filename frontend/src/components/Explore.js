@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 
 
 
+
 const Explore = () => {
 
   const [countries, updateCountries] = useState([])
@@ -104,11 +105,11 @@ const Explore = () => {
           </div>
           <div className="field is-grouped">
             <div className="control">
-              <button className="button is-dark is-link" onClick={() => handleSubmit(search)}>Check</button>
+              <button disabled={ searchType === '' ? true : false } className="button is-dark" onClick={() => handleSubmit(search)}>Check</button>
             </div>
             <div className="control">
               <Link to={`${searchType}/${searchID}`}>
-                <button className="button is-dark is-link">Search</button>
+                <button disabled={ searchID === '' ? true : false } className="button is-dark">Search</button>
               </Link>
               {/* <button className="button is-dark is-link" onClick={() => handleGo()}>Go</button> */}
             </div>

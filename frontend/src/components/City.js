@@ -98,7 +98,7 @@ const City = (props) => {
       <div className="eat" >
         {eat.map((place, index) => {
           return <Link to={`/places/${place.id}`} key={index}>
-            <div key={index} className="card">
+            <div key={index} className="card" style={{ margin: '10px' }}>
               <header className="card-header">
                 <p className="card-header-title">{place.name}</p>
                 <p className="media-right">{place.score.toString()[0]}/10</p>
