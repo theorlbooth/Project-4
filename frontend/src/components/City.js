@@ -85,7 +85,7 @@ const City = (props) => {
 
  
     <section className="section">
-      <section className="hero is-light is-small has-text-centered">
+      <section className="hero is-light is-small has-text-centered" style={{ backgroundColor: '#F4ECD8' }}>
         <div className="hero-body">
           <div className="container">
             <h1 className="title">
@@ -116,7 +116,7 @@ const City = (props) => {
     </section>
 
     <section className="section">
-      <section className="hero is-light is-small has-text-centered">
+      <section className="hero is-light is-small has-text-centered" style={{ backgroundColor: '#F4ECD8' }}>
         <div className="hero-body">
           <div className="container">
             <h1 className="title">
@@ -129,7 +129,7 @@ const City = (props) => {
       <div className="drink" >
         {drink.map((place, index) => {
           return <Link to={`/places/${place.id}`} key={index}>
-            <div key={index} className="card">
+            <div key={index} className="card" style={{ margin: '10px' }}>
               <header className="card-header">
                 <p className="card-header-title">{place.name}</p>
                 <p className="media-right">{place.score.toString()[0]}/10</p>
@@ -148,7 +148,7 @@ const City = (props) => {
 
 
     <section className="section">
-      <section className="hero is-light is-small has-text-centered">
+      <section className="hero is-light is-small has-text-centered" style={{ backgroundColor: '#F4ECD8' }}>
         <div className="hero-body">
           <div className="container">
             <h1 className="title">
@@ -161,7 +161,7 @@ const City = (props) => {
       <div className="see" >
         {see.map((place, index) => {
           return <Link to={`/places/${place.id}`} key={index}>
-            <div key={index} className="card">
+            <div key={index} className="card" style={{ margin: '10px' }}>
               <header className="card-header">
                 <p className="card-header-title">{place.name}</p>
                 <p className="media-right">{place.score.toString()[0]}/10</p>

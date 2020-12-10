@@ -85,14 +85,14 @@ const Country = (props) => {
             <img src={image} />
           </figure>
           <div className="media-content">
-            <p>{description}</p>
+            <p style={{ color: 'white' }}>{description}</p>
           </div>
         </article>
       </div>
     </section> 
    
     <section className="Section">
-      <section className="hero is-light is-small has-text-centered">
+      <section className="hero is-light is-small has-text-centered"  style={{ backgroundColor: '#F4ECD8' }}>
         <div className="hero-body">
           <div className="container">
             <h1 className="title">
@@ -111,9 +111,9 @@ const Country = (props) => {
     <section className="top-cities">
       {cities.map((city, index) => {
         
-        return <div key={index} style={{ margin: 20 }}>
+        return <div key={index} style={{ margin: 20 }, { padding: 10 }}>
           <Link to={`/city/${city.id}`}>
-            <div className="card">
+            <div className="card" style={{ margin: 20 }, { padding: 10 }}>
               <h1 className="title is-4">{city.name}</h1>
               <p className="subtitle is-6">{city.snippet}</p>
             </div>

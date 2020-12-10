@@ -59,7 +59,7 @@ def get_country_data_by_location(location_id):
   results_list = results_dict['results']
   results1 = results_list[0]
 
-  resp2 = requests.get(f'https://www.triposo.com/api/20201111/location.json?id={location_id}&tag_labels=city&count=10&fields=id,name,score,snippet&order_by=-score&account={TRIPOSO_ACCOUNT}&token={TRIPOSO_API_KEY}')
+  resp2 = requests.get(f'https://www.triposo.com/api/20201111/location.json?part_of={location_id}&tag_labels=city&count=10&fields=id,name,score,snippet&order_by=-score&account={TRIPOSO_ACCOUNT}&token={TRIPOSO_API_KEY}')
   results2_dict = resp2.json()
   results2 = results2_dict['results']
  
