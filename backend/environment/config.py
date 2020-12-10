@@ -1,5 +1,4 @@
+import os
 
-
-db_URI = 'postgres://localhost:5432/travel_db'
-secret = 'This is a secret string'
-
+db_URI = os.getenv('DATABASE_URL', 'postgres://localhost:5432/travel_db')
+secret = os.getenv('SECRET', 'This is a secret string')

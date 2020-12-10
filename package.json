@@ -6,7 +6,10 @@
   "scripts": {
     "frontend": "webpack-dev-server --mode=development",
     "backend": "pipenv run flask run",
-    "seed": "pipenv run python backend/seed.py"
+    "seed": "pipenv run python backend/seed.py",
+    "build": "pipenv install; npm i; webpack -p",
+    "serve:react": "webpack-dev-server",
+    "serve:flask": "pipenv run flask run"
   },
   "author": "",
   "license": "ISC",
