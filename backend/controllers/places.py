@@ -383,8 +383,9 @@ def get_single_place_id(id):
     if place_dict['tag_labels']:
       tag_list = place_dict['tag_labels']
       poi_tag = [tag for tag in tag_list if "poitype" in tag]
-      poi = poi_tag[0]
-      tag = poi.split('-')
+      if (len(poi_tag) > 0):
+        poi = poi_tag[0]
+        tag = poi.split('-')
     else:
       tag = 'None'
     
@@ -397,7 +398,7 @@ def get_single_place_id(id):
       'description': description,
       'score': score,
       'user_id': 1,
-      'tags': tag[1],
+      # 'tags': tag,
       'folder': []
     }
     
