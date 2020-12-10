@@ -11,9 +11,7 @@ const City = (props) => {
   const [see, updateSee] = useState([])
   const [cityDesc, updateCityDesc] = useState('')
   const [cleanCityDescription, updateCleanCityDescription] = useState('')
-  const [showEat, updateShowEat] = useState(false)
-  const [showDrink, updateShowDrink] = useState(false)
-  const [showSee, updateShowSee] = useState(false)
+  const [name, updateName] = useState('')
 
 
   const [viewPort, setViewPort] = useState({
@@ -32,6 +30,7 @@ const City = (props) => {
         updateEat(resp.data.eat)
         updateDrink(resp.data.drink)
         updateSee(resp.data.see)
+        updateName(resp.data.city_info.content.title)
         
         // Removing HTML tags from description
         const cleanDesc = resp.data.city_info.content.sections[0].body.replace(/<[^>]+>/g, '')
@@ -42,8 +41,8 @@ const City = (props) => {
         const longitude = resp.data.city_info.coordinates.longitude
         
         setViewPort({
-          height: '30vh',
-          width: '90vw', 
+          height: '50vh',
+          width: '100vw', 
           zoom: 12,
           latitude: latitude,
           longitude: longitude
@@ -61,7 +60,7 @@ const City = (props) => {
         <div className="hero-body">
           <div className="container">
             <h1 className="title">
-              {city.id}
+              {name}
             </h1>
             <h2 className="subtitle">
               {city.country_id}
@@ -80,79 +79,29 @@ const City = (props) => {
           { ...viewPort }
           onViewportChange={(viewPort) => setViewPort(viewPort)}
         >
-          {/* {countries.map((country, index) => {
-            return <Link to={`country/${country.alpha2code}`} key={index}>
-              <Marker 
-                latitude={country.lat}
-                longitude={country.long}
-              >
-                <img className="marker" src="https://img.icons8.com/material/24/000000/marker--v1.png" />
-              </Marker>
-            </Link> */}
-          {/* })} */}
-          
         </MapGL>
       </div>
     </section>
 
-    {/* <section className="section">
-      <div className="columns">
-        <div className="column">
-          <div className="card">
-            EAT
-          </div>
-        </div>
-        <div className="column">
-          <div className="card">
-            DRINK
-          </div>
-        </div>
-        <div className="column">
-          <div className="card">
-            SEE
-          </div>
-        </div>
-      </div>
-    </section>
-     */}
-
-    {/* <section className="section">
-      <div className="container is-fluid">
-        <div className="notification is-primary">
-          WHERE TO EAT
-        </div>
-      </div>
-      <div className="eat columns is-multiline" >
-        {eat.map((place, index) => {
-          return <div key={index} className="column is-one-third-desktop is-half-tablet is-half-mobile">
-            <Link to={`/places/${place.id}`}>
-              <div className="card">
-                <div className="card-content">
-                  <div className="media">
-                    <h4 className="title is-4">{place.name}</h4>
-                    <p className="subtitle is-4">{place.intro}</p>
-                  </div>
-                </div>
-              </div>
-            </Link>
-          </div>
-            
-            
-        })} 
-      </div>
-    </section> */}
+ 
     <section className="section">
-      <div className="container is-fluid">
-        <div className="notification is-primary">
-          WHERE TO EAT
+      <section className="hero is-light is-small has-text-centered">
+        <div className="hero-body">
+          <div className="container">
+            <h1 className="title">
+            EAT
+            </h1>
+            <p>Find the best places to eat...</p>
+          </div>
         </div>
-      </div>
+      </section>
       <div className="eat" >
         {eat.map((place, index) => {
           return <Link to={`/places/${place.id}`} key={index}>
             <div key={index} className="card">
               <header className="card-header">
                 <p className="card-header-title">{place.name}</p>
+                <p className="media-right">{place.score.toString()[0]}/10</p>
                   
               </header>
               <div className="card-content">
@@ -167,18 +116,23 @@ const City = (props) => {
     </section>
 
     <section className="section">
-      <div className="container is-fluid">
-        <div className="notification is-primary">
-          WHERE TO DRINK
+      <section className="hero is-light is-small has-text-centered">
+        <div className="hero-body">
+          <div className="container">
+            <h1 className="title">
+            DRINK
+            </h1>
+            <p>Find the best places to drink...</p>
+          </div>
         </div>
-      </div>
-
+      </section>
       <div className="drink" >
         {drink.map((place, index) => {
           return <Link to={`/places/${place.id}`} key={index}>
             <div key={index} className="card">
               <header className="card-header">
                 <p className="card-header-title">{place.name}</p>
+                <p className="media-right">{place.score.toString()[0]}/10</p>
                   
               </header>
               <div className="card-content">
@@ -192,18 +146,25 @@ const City = (props) => {
       </div>
     </section>
 
+
     <section className="section">
-      <div className="container is-fluid">
-        <div className="notification is-primary">
-          WHAT TO SEE
+      <section className="hero is-light is-small has-text-centered">
+        <div className="hero-body">
+          <div className="container">
+            <h1 className="title">
+            SEE
+            </h1>
+            <p>Find the sights...</p>
+          </div>
         </div>
-      </div>
+      </section>
       <div className="see" >
         {see.map((place, index) => {
           return <Link to={`/places/${place.id}`} key={index}>
             <div key={index} className="card">
               <header className="card-header">
                 <p className="card-header-title">{place.name}</p>
+                <p className="media-right">{place.score.toString()[0]}/10</p>
                   
               </header>
               <div className="card-content">

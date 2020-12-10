@@ -15,7 +15,7 @@ const Explore = () => {
   const [marker, setMarker] = useState('')
   
   const [viewPort, setViewPort] = useState({
-    height: '50vh',
+    height: '70vh',
     width: '100vw', 
     zoom: 1.5,
     latitude: 54.5260,

@@ -6,6 +6,8 @@ const Country = (props) => {
 
   const [country, updateCountry] = useState({})
   const [cities, updateCities] = useState([])
+  const [description, updateDescription] = useState('')
+  const [image, updateImage] = useState('')
 
   useEffect(() => {
     const locationId = props.match.params.location_id
@@ -16,14 +18,24 @@ const Country = (props) => {
         .then(resp => {
           updateCountry(resp.data.country_info)
           updateCities(resp.data.top_cities)
+          updateImage(resp.data.country_info.images[0].sizes.thumbnail.url)
+
+          const cleanDescription = resp.data.country_info.content.sections[0].body.replace(/<[^>]+>/g, '')
+          updateDescription(cleanDescription)
         })
     } else {
       axios.get(`/api/countries/${locationId}`)
         .then(resp => {
           updateCountry(resp.data.country_info)
           updateCities(resp.data.top_cities)
+          updateImage(resp.data.country_info.images[0].sizes.thumbnail.url)
+
+          const cleanDescription = resp.data.country_info.content.sections[0].body.replace(/<[^>]+>/g, '')
+          updateDescription(cleanDescription)
+          console.log(cleanDescription)
         })
     }
+    
   }, [])
  
  
@@ -49,32 +61,66 @@ const Country = (props) => {
   // console.log(sections)
 
   return <div className="container">
-    <div className="country_info">
-      <h1>
-        Hello {country.name}
-      </h1>
-      <p>Description: {country.intro}</p>
 
-      {/* <p>  
-        {country.content ? {country.content.sections[0].body} : 'Loading' } 
-      </p> */}
-      {/* <img src={country.images[0].sizes.medium.url} alt="hmm" /> */}
-    </div> 
+    <section className="Section">
+      <section className="hero is-dark">
+        <div className="hero-body">
+          <div className="container">
+            <h1 className="title">
+              {country.name}
+            </h1>
+            {/* <h2 className="subtitle">
+              {city.country_id}
+            </h2> */}
+            <p>{country.intro}</p>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section className="section country_info">
+      <div className="container">
+        <article className="media">
+          <figure className="media-left is-small">
+            <img src={image} />
+          </figure>
+          <div className="media-content">
+            <p>{description}</p>
+          </div>
+        </article>
+      </div>
+    </section> 
    
-    <div className="top-cities">
-      <h1>TOP CITIES:</h1>
+    <section className="Section">
+      <section className="hero is-light is-small has-text-centered">
+        <div className="hero-body">
+          <div className="container">
+            <h1 className="title">
+             TOP CITIES
+            </h1>
+            {/* <h2 className="subtitle">
+              {city.country_id}
+            </h2> */}
+            <p>Find the best places to go..</p>
+          </div>
+        </div>
+      </section>
+    </section>
+   
+      
+    <section className="top-cities">
       {cities.map((city, index) => {
         
-        return <div key={index}>
+        return <div key={index} style={{ margin: 20 }}>
           <Link to={`/city/${city.id}`}>
             <div className="card">
-              <h1>Name: {city.name}</h1>
-              <p>Info: {city.snippet}</p>
+              <h1 className="title is-4">{city.name}</h1>
+              <p className="subtitle is-6">{city.snippet}</p>
             </div>
           </Link>
         </div>
       })}
-    </div>
+    </section>
 
   </div>
 }

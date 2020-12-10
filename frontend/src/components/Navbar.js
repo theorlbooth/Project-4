@@ -19,8 +19,8 @@ const Navbar = (props) => {
         <div className="navbar-end">
           <div className="navbar-item">
             <div className="buttons">
-              <Link className="button is-black" to="/">Home</Link>
-              <Link className="button is-black" to="/search">Search</Link>
+              {/* <Link className="button is-black" to="/">Home</Link> */}
+              {/* <Link className="button is-black" to="/search">Search</Link> */}
               <Link className="button is-black" to="/folders">Folders</Link>
               <Link className="button is-black" to="/explore">Explore</Link>
               <Link className="button is-black" to="/trip_planner">Trip Planner</Link>
