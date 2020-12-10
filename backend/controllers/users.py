@@ -11,7 +11,7 @@ router = Blueprint(__name__, 'users')
 @router.route('/register', methods=['POST'])
 def register():
   request_body = request.get_json()
-
+  print(request_body)
   email = User.query.filter_by(email=request_body['email']).first()
   username = User.query.filter_by(username=request_body['username']).first()
   if username and email:
@@ -21,7 +21,11 @@ def register():
   elif username:
     return { 'errors' : {'username':'Username in use'} }
 
-  new_user = user_schema.load(request_body)
+  try:
+    new_user = user_schema.load(request_body)
+  except ValidationError as e:
+    return { 'errors': e.messages, 'message': 'Somthing went wrong!' }
+
   new_user.save()
   return user_schema.jsonify(new_user), 200
 

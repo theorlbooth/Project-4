@@ -7,15 +7,15 @@ const Register = (props) => {
   const [formData, updateFormData] = useState({
     username: '',
     email: '',
-    password: ''
-    // password_confirmation: ''
+    password: '',
+    passwordConfirmation: ''
   })
 
   const [errors, updateErrors] = useState({
     username: '',
-    email: ''
-    // password: '',
-    // passwordConfirmation: ''
+    email: '',
+    password: '',
+    passwordConfirmation: ''
   })
 
 
@@ -41,6 +41,8 @@ const Register = (props) => {
     event.preventDefault()
     axios.post('/api/register', formData)
       .then(resp => {
+        console.log(resp)
+        console.log(resp.data)
         if (resp.data.errors) {
           // console.log(resp.data.errors)
           updateErrors(resp.data.errors)
@@ -75,18 +77,18 @@ const Register = (props) => {
           <label className="label">Password:</label>
           <div className="control">
             <input className="input" type="password" placeholder="Password" onChange={handleChange} value={formData.password} name="password" />
-            {/* {errors && <p style={{ color: 'red' }}>
-              {errors}</p>} */}
+            {errors.password && <p style={{ color: 'red' }}>
+              {errors}</p>}
           </div>
         </div>
-        {/* <div className="field">
+        <div className="field">
           <label className="label">Password Confirmation:</label>
           <div className="control">
             <input className="input" type="password" placeholder="Confirm password" onChange={handleChange} value={formData.passwordConfirmation} name="passwordConfirmation" />
             {errors.passwordConfirmation && <p style={{ color: 'red' }}>
               Passwords do not match</p>}
           </div>
-        </div> */}
+        </div>
         <div className="login-buttons">
           <div className="control buttonflex">
             <button style={{ border: '3px solid #F4ECD8' }} className="button is-black">Submit</button>

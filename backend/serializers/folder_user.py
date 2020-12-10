@@ -8,7 +8,7 @@ class FolderUserSchema(ma.SQLAlchemyAutoSchema, BaseSchema):
   class Meta:
     model = User
     load_instance = True
-    exclude = ('password_hash',)
-    load_only = ('email', 'password')
+    exclude = ('password_hash', 'passwordConfirmation_hash')
+    load_only = ('email', 'password', 'passwordConfirmation')
 
   password = fields.String(required=True)

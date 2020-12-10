@@ -73,6 +73,7 @@ with app.app_context():
     username="Sean",
     email="sean@sean.com",
     password="sean",
+    passwordConfirmation="sean",
     folder=[paris]
   )
   sean.save()
@@ -81,6 +82,7 @@ with app.app_context():
     username="Theo",
     email="theo@theo.com",
     password="theo",
+    passwordConfirmation="theo",
     folder=[amsterdam]
   )
   theo.save()

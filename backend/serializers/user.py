@@ -12,20 +12,18 @@ class UserSchema(ma.SQLAlchemyAutoSchema, BaseSchema):
   class Meta:
     model = User
     load_instance = True
-    exclude = ('password_hash',)
-    load_only = ('email', 'password')
+    exclude = ('password_hash', 'passwordConfirmation_hash')
+    load_only = ('email', 'password', 'passwordConfirmation')
 
-  # ! does not return error currently - can do this on frontend
-  # @validates_schema
-  # def check_passwords_match(self, data, **kwargs):
-  #   if request.method == 'POST':
-  #     if data['password'] != data['password_confirmation']:
-  #       raise ValidationError(
-  #         'Passwords do not match',
-  #         'password_confirmation'
-  #       )
-    
+  @validates_schema
+  def check_passwords_match(self, data, **kwargs):
+    if request.method == 'POST':
+      if data['password'] != data['passwordConfirmation']:
+        raise ValidationError(
+          'Passwords do not match',
+          'passwordConfirmation'
+        )
 
+  passwordConfirmation = fields.String(required=False)
   folder = fields.Nested('FolderSchema', many=True)
   password = fields.String(required=True)
-  # password_confirmation = fields.String(required=False)
