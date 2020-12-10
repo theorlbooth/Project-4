@@ -4,6 +4,7 @@ import moment from 'moment'
 import { Link } from 'react-router-dom'
 import Modal from 'react-modal'
 import Loader from './Loader'
+import Toggle from 'react-toggle'
 
 
 const user = (props) => {
@@ -14,6 +15,7 @@ const user = (props) => {
   const [newFolderName, updateNewFolderName] = useState('')
   const [publicFolders, updatePublicFolders] = useState([])
   const [privateFolders, updatePrivateFolders] = useState([])
+  const [toggle, updateToggle] = useState()
 
   useEffect(() => {
     axios.get(`/api/users/${id}`, {
@@ -50,7 +52,8 @@ const user = (props) => {
       marginRight: '-50%',
       transform: 'translate(-50%, -50%)',
       textAlign: 'center',
-      fontSize: '22px'
+      fontSize: '22px',
+      backgroundColor: '#F4ECD8'
 
     },
     overlay: {
@@ -76,13 +79,21 @@ const user = (props) => {
 
 
   function createFolder(name) {
-    axios.post('/api/folder', { 'name': name }, {
+    axios.post('/api/folder', { 'name': name, 'public': toggle }, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(resp => {
         updateUser(resp.data)
         updateNewFolderName('')
         closeNewModal()
+        const publicF = resp.data.folder.filter(folder => {
+          return folder.public === true
+        })
+        updatePublicFolders(publicF)
+        const privateF = resp.data.folder.filter(folder => {
+          return folder.public === false
+        })
+        updatePrivateFolders(privateF)
       })
   }
 
@@ -102,9 +113,13 @@ const user = (props) => {
       <Modal isOpen={newModalIsOpen} onRequestClose={closeNewModal} style={customStyle} contentLabel="New Modal">
         <p>Name:</p>
         <input type="text" onChange={event => updateNewFolderName(event.target.value)} value={newFolderName} />
+        <div style={{ color: 'black', display: 'flex', alignItems: 'center', alignContent: 'center', justifyContent: 'center', borderRadius: '5px', margin: '10px' }}>
+          <Toggle id="public-toggle" className="react-toggle" defaultChecked={toggle} onChange={(event) => updateToggle(event.target.checked)} />
+          <label htmlFor="public-toggle" style={{ marginLeft: '10px' }}>Public</label>
+        </div>
         <div className="modal-buttons">
-          <button className="button is-black" style={{ border: '3px solid white', margin: '20px' }} onClick={() => createFolder(newFolderName)}>confirm</button>
-          <button className="button is-black" style={{ border: '3px solid white', margin: '20px' }} onClick={closeNewModal}>cancel</button>
+          <button className="button is-black" style={{ border: '3px solid #F4ECD8', color: '#F4ECD8', margin: '5px' }} onClick={() => createFolder(newFolderName)}>confirm</button>
+          <button className="button is-black" style={{ border: '3px solid #F4ECD8', color: '#F4ECD8', margin: '5px' }} onClick={closeNewModal}>cancel</button>
         </div>
       </Modal>
 

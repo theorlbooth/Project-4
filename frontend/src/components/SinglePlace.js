@@ -307,7 +307,7 @@ const singlePlace = (props) => {
         <img src={singlePlace.picture} alt={singlePlace.name} />
         <div className="comments-section" style={{ border: '3px solid #F4ECD8' }}>
           <article className="media">
-            {(!token && singlePlace.comments.length === 0) && <div style={{ margin: 'auto' }} className="no-comments">No Comments</div>}
+            {(!token && singlePlace.comments.length === 0) && <div style={{ margin: 'auto', color: '#F4ECD8', fontSize: '24px' }} className="no-comments">No Comments</div>}
             {token && <div className="media-content">
 
               <div className="field">
