@@ -68,10 +68,10 @@ const user = (props) => {
   return <>
     <div className="single-folder-page">
       <div className="top-half">
-        <h1 className="name">{folder.name}</h1>
-        <p className="user-name"><b>User: </b>{folder.users[0].username}</p>
-        <p className="user-time"><b>Created: </b>{moment(folder.created_at).fromNow()}</p>
-        <p className="folder-count">{folder.places.length !== 0 ? (`${folder.places.length} places`) : ('Folder is empty')}</p>
+        <h1 className="name" style={{ color: '#F4ECD8' }}>{folder.name}</h1>
+        <p className="user-name" style={{ color: '#F4ECD8' }}><b>User: </b>{folder.users[0].username}</p>
+        <p className="user-time" style={{ color: '#F4ECD8' }}><b>Created: </b>{moment(folder.created_at).fromNow()}</p>
+        <p className="folder-count" style={{ color: '#F4ECD8' }}>{folder.places.length !== 0 ? (`${folder.places.length} places`) : ('Folder is empty')}</p>
         {/* <Link to={`/user/${user}`}><button id="button-1" className="button is-black">Back</button></Link> */}
         {isCreator(folder.users[0].id) && <button id="button-1" className="button is-danger" onClick={folderDelete}>Delete Folder</button>}
 
@@ -86,7 +86,7 @@ const user = (props) => {
           {folder.places.map((place, index) => {
             return <div className="column is-2-desktop is-6-tablet is-12-mobile" key={index}>
 
-              <div className="card">
+              <div className="card" style={{ backgroundColor: '#F4ECD8' }}>
                 <Link to={`/places/${place.id}`}>
                   <div className="card-image">
                     <figure className="image is-square">

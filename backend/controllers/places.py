@@ -364,7 +364,11 @@ def get_single_place_id(id):
     results_list = results_dict['results']
     place_dict = results_list[0]
     images = place_dict['images']
-    image_info = images[0]
+    if len(images) != 0: 
+      image_info = images[0]
+    else: 
+      image_info = {'source_url': 'https://www.dia.org/sites/default/files/No_Img_Avail.jpg'}
+
     latlon = place_dict['coordinates']
     
     name = place_dict['name']

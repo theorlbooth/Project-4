@@ -122,7 +122,7 @@ const tripPlanner = () => {
             </div>
             <div className="login-buttons">
               <div className="control buttonflex">
-                <button style={{ border: 'solid 3px white' }} className="button is-black">Submit</button>
+                <button style={{ border: 'solid 3px #F4ECD8' }} className="button is-black">Submit</button>
               </div>
             </div>
           </form>
@@ -193,7 +193,7 @@ const tripPlanner = () => {
                   </div>
                 </div>
                 {day.itinerary_items.map((item, index) => {
-                  return <div key={index} className="card" style={{ margin: '5px 0px' }}>
+                  return <div key={index} className="card" style={{ margin: '5px 0px', backgroundColor: '#F4ECD8' }}>
                     <Link to={`/places/${item.poi.id}`}>
                       <div className="card-content">
                         <div className="media-content">

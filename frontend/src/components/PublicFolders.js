@@ -42,15 +42,15 @@ const publicFolders = (props) => {
     <div className="folders-page">
 
       <div className="top-half">
-        <h1 style={{ color: 'white', fontSize: '50px', marginTop: '30px' }}>Public Folders</h1>
-        <p style={{ color: 'white', fontSize: '30px' }}>{folders.length} folders to explore!</p>
+        <h1 style={{ color: '#F4ECD8', fontSize: '50px', marginTop: '30px' }}>Public Folders</h1>
+        <p style={{ color: '#F4ECD8', fontSize: '30px' }}>{folders.length} folders to explore!</p>
       </div>
       <div className="bottom-half">
         <div className="columns is-multiline is-mobile" style={{ display: 'flex', justifyContent: 'center' }}>
           {folders.map((folder, index) => {
             return <div className="column is-2-desktop is-6-tablet is-12-mobile" key={index}>
               <Link to={`/folders/${folder.id}`}>
-                <div className="card">
+                <div className="card" style={{ backgroundColor: '#F4ECD8' }}>
                   <div className="card-content">
                     <div className="media-content">
                       <h2 className="title is-5" style={{ textAlign: 'center' }}>{folder.name}</h2>

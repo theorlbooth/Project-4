@@ -63,7 +63,7 @@ const singlePlace = (props) => {
     if (content === '' && rating === 0) {
       return
     } else {
-      axios.post(`/api/places/${id}/comments`, { content, rating }, {
+      axios.post(`/api/places/${singlePlace.id}/comments`, { content, rating }, {
         headers: { Authorization: `Bearer ${token}` }
       })
         .then(resp => {
@@ -76,7 +76,7 @@ const singlePlace = (props) => {
   }
 
   function handleCommentDelete(commentId) {
-    axios.delete(`/api/places/${id}/comments/${commentId}`, {
+    axios.delete(`/api/places/${singlePlace.id}/comments/${commentId}`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(resp => {
@@ -130,7 +130,7 @@ const singlePlace = (props) => {
     })
       .then(resp => {
         console.log(resp)
-        axios.post(`/api/folders/${resp.data.id}/${id}`, {
+        axios.post(`/api/folders/${resp.data.id}/${singlePlace.id}`, {
           headers: { Authorization: `Bearer ${token}` }
         })
           .then(resp => {
@@ -153,7 +153,8 @@ const singlePlace = (props) => {
       marginRight: '-50%',
       transform: 'translate(-50%, -50%)',
       textAlign: 'center',
-      fontSize: '22px'
+      fontSize: '22px',
+      backgroundColor: '#F4ECD8'
 
     },
     overlay: {
@@ -253,32 +254,32 @@ const singlePlace = (props) => {
           <label htmlFor="public-toggle" style={{ marginLeft: '10px' }}>Public</label>
         </div>
         <div className="modal-buttons">
-          <button className="button is-black" style={{ border: '3px solid white', margin: '5px' }} onClick={() => createAndAddToFolder(newFolderName)}>confirm</button>
-          <button className="button is-black" style={{ border: '3px solid white', margin: '5px' }} onClick={closeNewModal}>cancel</button>
+          <button className="button is-black" style={{ border: '3px solid #F4ECD8', color: '#F4ECD8', margin: '5px' }} onClick={() => createAndAddToFolder(newFolderName)}>confirm</button>
+          <button className="button is-black" style={{ border: '3px solid #F4ECD8', color: '#F4ECD8', margin: '5px' }} onClick={closeNewModal}>cancel</button>
         </div>
       </Modal>
       <Modal isOpen={addModalIsOpen} onRequestClose={closeAddModal} style={customStyle} contentLabel="Add Modal">
         <p>Added to {addRemoveName} folder</p>
         <div className="modal-buttons">
-          <button className="button is-black" style={{ border: '3px solid white', margin: '20px' }} onClick={closeAddModal}>close</button>
+          <button className="button is-black" style={{ border: '3px solid #F4ECD8', color: '#F4ECD8', margin: '20px' }} onClick={closeAddModal}>close</button>
         </div>
       </Modal>
       <Modal isOpen={removeModalIsOpen} onRequestClose={closeRemoveModal} style={customStyle} contentLabel="Remove Modal">
         <p>Removed from {addRemoveName} folder</p>
         <div className="modal-buttons">
-          <button className="button is-black" style={{ border: '3px solid white', margin: '20px' }} onClick={closeRemoveModal}>close</button>
+          <button className="button is-black" style={{ border: '3px solid #F4ECD8', color: '#F4ECD8', margin: '20px' }} onClick={closeRemoveModal}>close</button>
         </div>
       </Modal>
       <Modal isOpen={createAndAddModalIsOpen} onRequestClose={closeCreateAndAddModal} style={customStyle} contentLabel="Create And Add Modal">
         <p>{addRemoveName} folder created!</p>
         <p>And {singlePlace.name} added to it!</p>
         <div className="modal-buttons">
-          <button className="button is-black" style={{ border: '3px solid white', margin: '20px' }} onClick={closeCreateAndAddModal}>close</button>
+          <button className="button is-black" style={{ border: '3px solid #F4ECD8', color: '#F4ECD8', margin: '20px' }} onClick={closeCreateAndAddModal}>close</button>
         </div>
       </Modal>
 
 
-      <div className="single-page-left">
+      <div className="single-page-left" style={{ marginTop: '30px' }}>
         <h1 className="name">{singlePlace.name}</h1>
         <div className="address">
           <div className="information">{locationInfo.results[0].components.information}</div>
@@ -301,10 +302,10 @@ const singlePlace = (props) => {
         <div className="folders"></div>
       </div>
 
-
-      <div className="single-page-right">
+      
+      <div className="single-page-right" style={{ marginTop: '30px' }}>
         <img src={singlePlace.picture} alt={singlePlace.name} />
-        <div className="comments-section" style={{ border: '3px solid black' }}>
+        <div className="comments-section" style={{ border: '3px solid #F4ECD8' }}>
           <article className="media">
             {(!token && singlePlace.comments.length === 0) && <div style={{ margin: 'auto' }} className="no-comments">No Comments</div>}
             {token && <div className="media-content">
@@ -317,7 +318,7 @@ const singlePlace = (props) => {
               </div>
               <div className="field">
                 <p className="control">
-                  <button className="button is-black" style={{ border: '3px solid black' }} onClick={handleComment}>Post</button>
+                  <button className="button is-black" style={{ border: '3px solid #F4ECD8', color: '#F4ECD8' }} onClick={handleComment}>Post</button>
                 </p>
               </div>
             </div>}
@@ -327,14 +328,14 @@ const singlePlace = (props) => {
               <div className="media-content">
                 <div className="content">
                   <div className="user-time" style={{ display: 'flex' }}>
-                    <p style={{ color: 'white' }} className="username">
+                    <p style={{ color: '#F4ECD8' }} className="username">
                       {!comment.user.username ? 'unknown' : comment.user.username}
                     </p>
-                    <p style={{ color: 'white' }} >
+                    <p style={{ color: '#F4ECD8' }} >
                       ({moment(comment.created_at).fromNow()})
                     </p>
                   </div>
-                  <p style={{ color: 'white' }} className="comment-body">{comment.content}</p>
+                  <p style={{ color: '#F4ECD8' }} className="comment-body">{comment.content}</p>
                   {comment.rating !== 0 && <ReactStars value={(comment.rating) / 2} count={5} size={16} activeColor="#ffd700" edit={false} isHalf={true} />}
                 </div>
               </div>

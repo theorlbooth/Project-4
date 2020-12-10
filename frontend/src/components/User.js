@@ -12,6 +12,8 @@ const user = (props) => {
   const id = props.match.params.id
   const token = localStorage.getItem('token')
   const [newFolderName, updateNewFolderName] = useState('')
+  const [publicFolders, updatePublicFolders] = useState([])
+  const [privateFolders, updatePrivateFolders] = useState([])
 
   useEffect(() => {
     axios.get(`/api/users/${id}`, {
@@ -20,6 +22,20 @@ const user = (props) => {
       .then(resp => {
         console.log(resp.data)
         updateUser(resp.data)
+        const publicF = resp.data.folder.filter(folder => {
+          return folder.public === true
+        })
+        console.log(resp.data.folder.filter(folder => {
+          return folder.public === true
+        }))
+        updatePublicFolders(publicF)
+        const privateF = resp.data.folder.filter(folder => {
+          return folder.public === false
+        })
+        updatePrivateFolders(privateF)
+        console.log(resp.data.folder.filter(folder => {
+          return folder.public === false
+        }))
       })
   }, [])
 
@@ -93,36 +109,65 @@ const user = (props) => {
       </Modal>
 
       <div className="top-half">
-        <h1 style={{ color: 'white', fontSize: '50px', marginTop: '30px' }} className="user-name">{user.username}</h1>
-        <p style={{ color: 'white', fontSize: '30px' }} className="user-time">{`Joined: ${moment(user.created_at).fromNow()}`}</p>
+        <h1 style={{ color: '#F4ECD8', fontSize: '50px', marginTop: '30px' }} className="user-name">{user.username}</h1>
+        <p style={{ color: '#F4ECD8', fontSize: '30px' }} className="user-time">{`Joined: ${moment(user.created_at).fromNow()}`}</p>
       </div>
+
       <div className="bottom-half">
-        <div className="columns is-multiline is-mobile" style={{ display: 'flex', justifyContent: 'center' }}>
-          {user.folder.map((folder, index) => {
-            return <div className="column is-2-desktop is-6-tablet is-12-mobile" key={index}>
-              <Link to={`/folders/${folder.id}`}>
-                <div className="card">
-                  <div className="card-content">
-                    <div className="media-content">
-                      <h2 className="title is-5" style={{ textAlign: 'center' }}>{folder.name}</h2>
-                      <p className="subtitle is-6" style={{ textAlign: 'center' }}>{folder.places.length === 1 ? `${folder.places.length} place saved` : `${folder.places.length} places saved`}</p>
+        <div className='folders-sorted'>
+          <div className="create-folder">
+            <div className="columns is-multiline is-mobile" style={{ display: 'flex', justifyContent: 'center' }}>
+              <div className="column is-2-desktop is-6-tablet is-12-mobile" key="new">
+                <a className="new-folder" onClick={openNewModal}>
+                  <div className="card" style={{ backgroundColor: '#5AAC84', border: 'solid 3px #F4ECD8' }} >
+                    <div className="card-content">
+                      <div className="media-content">
+                        <h2 className="title is-5" style={{ textAlign: 'center', color: '#F4ECD8', fontSize: '20px' }}>+</h2>
+                        <p className="subtitle is-6" style={{ textAlign: 'center', color: '#F4ECD8', fontSize: '20px' }}>New Folder</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Link>
-            </div>
-          })}
-          <div className="column is-2-desktop is-6-tablet is-12-mobile" key="new">
-            <a className="new-folder" onClick={openNewModal}>
-              <div className="card" style={{ backgroundColor: '#5AAC84' }} >
-                <div className="card-content">
-                  <div className="media-content">
-                    <h2 className="title is-5" style={{ textAlign: 'center' }}>+</h2>
-                    <p className="subtitle is-6" style={{ textAlign: 'center' }}>New Folder</p>
-                  </div>
-                </div>
+                </a>
               </div>
-            </a>
+            </div>
+          </div>
+        </div>
+        <div className="private-folders">
+          <h2 className="private" style={{ color: '#F4ECD8', fontSize: '30px', margin: '40px', textAlign: 'center', textDecoration: 'underline' }}>Private Folders:</h2>
+          <div className="columns is-multiline is-mobile" style={{ display: 'flex', justifyContent: 'center' }}>
+            {privateFolders.map((folder, index) => {
+              return <div className="column is-2-desktop is-6-tablet is-12-mobile" key={index}>
+                <Link to={`/folders/${folder.id}`}>
+                  <div className="card" style={{ backgroundColor: '#F4ECD8' }}>
+                    <div className="card-content">
+                      <div className="media-content">
+                        <h2 className="title is-5" style={{ textAlign: 'center' }}>{folder.name}</h2>
+                        <p className="subtitle is-6" style={{ textAlign: 'center' }}>{folder.places.length === 1 ? `${folder.places.length} place saved` : `${folder.places.length} places saved`}</p>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+            })}
+          </div>
+        </div>
+        <div className="public-folders">
+          <h2 className="public" style={{ color: '#F4ECD8', fontSize: '30px', margin: '40px', textAlign: 'center', textDecoration: 'underline' }}>Public Folders:</h2>
+          <div className="columns is-multiline is-mobile" style={{ display: 'flex', justifyContent: 'center' }}>
+            {publicFolders.map((folder, index) => {
+              return <div className="column is-2-desktop is-6-tablet is-12-mobile" key={index}>
+                <Link to={`/folders/${folder.id}`}>
+                  <div className="card" style={{ backgroundColor: '#F4ECD8' }}>
+                    <div className="card-content">
+                      <div className="media-content">
+                        <h2 className="title is-5" style={{ textAlign: 'center' }}>{folder.name}</h2>
+                        <p className="subtitle is-6" style={{ textAlign: 'center' }}>{folder.places.length === 1 ? `${folder.places.length} place saved` : `${folder.places.length} places saved`}</p>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+            })}
           </div>
         </div>
       </div>

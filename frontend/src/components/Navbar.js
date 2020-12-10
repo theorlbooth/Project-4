@@ -14,19 +14,19 @@ const Navbar = (props) => {
   }
 
   return <>
-    <nav className="navbar">
+    <nav className="navbar" style={{ backgroundColor: '#F4ECD8' }}>
       <div className="navbar-menu">
         <div className="navbar-end">
           <div className="navbar-item">
             <div className="buttons">
               {/* <Link className="button is-black" to="/">Home</Link> */}
               {/* <Link className="button is-black" to="/search">Search</Link> */}
-              <Link className="button is-black" to="/folders">Folders</Link>
-              <Link className="button is-black" to="/explore">Explore</Link>
-              {token && <Link className="button is-black" to="/trip_planner">Trip Planner</Link>}
-              {token && <Link className="button is-black" to={`/user/${getUserId()}`}>User</Link>}
-              {!token && <Link className="button is-black" to="/login">Login</Link>}
-              {token && <Link className="button is-black" to="/" onClick={handleLogout}>Logout</Link>}
+              <Link className="button is-black" style={{ color: '#F4ECD8' }} to="/explore">Explore</Link>
+              <Link className="button is-black" style={{ color: '#F4ECD8' }} to="/folders">Folders</Link>
+              {token && <Link style={{ color: '#F4ECD8' }} className="button is-black" to="/trip_planner">Trip Planner</Link>}
+              {token && <Link style={{ color: '#F4ECD8' }} className="button is-black" to={`/user/${getUserId()}`}>User</Link>}
+              {!token && <Link style={{ color: '#F4ECD8' }} className="button is-black" to="/login">Login</Link>}
+              {token && <Link style={{ color: '#F4ECD8' }} className="button is-black" to="/" onClick={handleLogout}>Logout</Link>}
             </div>
           </div>
         </div>
