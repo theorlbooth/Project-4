@@ -69,9 +69,9 @@ const user = (props) => {
     <div className="single-folder-page">
       <div className="top-half">
         <h1 className="name">{folder.name}</h1>
-        <p className="user-name">{`User: ${folder.users[0].username}`}</p>
-        <p className="user-time">{`Created: ${moment(folder.created_at).fromNow()}`}</p>
-        <p className="folder-count">{folder.places.length !== 0 ? (`Contains: ${folder.places.length} places`) : ('Folder is empty')}</p>
+        <p className="user-name"><b>User: </b>{folder.users[0].username}</p>
+        <p className="user-time"><b>Created: </b>{moment(folder.created_at).fromNow()}</p>
+        <p className="folder-count">{folder.places.length !== 0 ? (`${folder.places.length} places`) : ('Folder is empty')}</p>
         {/* <Link to={`/user/${user}`}><button id="button-1" className="button is-black">Back</button></Link> */}
         {isCreator(folder.users[0].id) && <button id="button-1" className="button is-danger" onClick={folderDelete}>Delete Folder</button>}
 

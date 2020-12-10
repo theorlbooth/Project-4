@@ -93,8 +93,8 @@ const user = (props) => {
       </Modal>
 
       <div className="top-half">
-        <h1 className="user-name">{user.username}</h1>
-        <p className="user-time">{`Joined: ${moment(user.created_at).fromNow()}`}</p>
+        <h1 style={{ color: 'white', fontSize: '50px', marginTop: '30px' }} className="user-name">{user.username}</h1>
+        <p style={{ color: 'white', fontSize: '30px' }} className="user-time">{`Joined: ${moment(user.created_at).fromNow()}`}</p>
       </div>
       <div className="bottom-half">
         <div className="columns is-multiline is-mobile" style={{ display: 'flex', justifyContent: 'center' }}>
@@ -105,7 +105,7 @@ const user = (props) => {
                   <div className="card-content">
                     <div className="media-content">
                       <h2 className="title is-5" style={{ textAlign: 'center' }}>{folder.name}</h2>
-                      <p className="subtitle is-6" style={{ textAlign: 'center' }}>{`${folder.places.length} places saved`}</p>
+                      <p className="subtitle is-6" style={{ textAlign: 'center' }}>{folder.places.length === 1 ? `${folder.places.length} place saved` : `${folder.places.length} places saved`}</p>
                     </div>
                   </div>
                 </div>

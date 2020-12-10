@@ -42,8 +42,8 @@ const publicFolders = (props) => {
     <div className="folders-page">
 
       <div className="top-half">
-        <h1>Public Folders</h1>
-        <p>{folders.length} folders to explore!</p>
+        <h1 style={{ color: 'white', fontSize: '50px', marginTop: '30px' }}>Public Folders</h1>
+        <p style={{ color: 'white', fontSize: '30px' }}>{folders.length} folders to explore!</p>
       </div>
       <div className="bottom-half">
         <div className="columns is-multiline is-mobile" style={{ display: 'flex', justifyContent: 'center' }}>

@@ -89,7 +89,7 @@ const Register = (props) => {
         </div>
         <div className="login-buttons">
           <div className="control buttonflex">
-            <button className="button is-black">Submit</button>
+            <button style={{ border: '3px solid white' }} className="button is-black">Submit</button>
           </div>
         </div>
       </form>
