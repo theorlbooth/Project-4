@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom'
 import Loader from './Loader'
 import Clock from 'react-live-clock'
 import Toggle from 'react-toggle'
-
+import FolderImg from '../../styles/images/folder-multiple.png'
 
 const singlePlace = (props) => {
 
@@ -224,7 +224,7 @@ const singlePlace = (props) => {
   return <>
     <div className="single-page">
 
-      {token && <Menu customBurgerIcon={<img src="../styles/images/folder-multiple.png" />} >
+      {token && <Menu customBurgerIcon={<img src={FolderImg} />} >
         <p style={{ textAlign: 'center' }}>--- NEW FOLDER ---</p>
         <br />
         <a className="menu-item" style={{ textAlign: 'center' }} onClick={openNewModal}>New</a>
