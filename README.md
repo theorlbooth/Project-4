@@ -64,6 +64,18 @@ You can find the project here.
 
 ## Screenshots
 
+![screenshot](screenshots/1.png)
+![screenshot](screenshots/2.png)
+![screenshot](screenshots/3.png)
+![screenshot](screenshots/4.png)
+![screenshot](screenshots/5.png)
+![screenshot](screenshots/6.png)
+![screenshot](screenshots/7.png)
+![screenshot](screenshots/8.png)
+![screenshot](screenshots/9.png)
+
+
+
 ## Challenges / Victories
 ### 
 ###
@@ -77,14 +89,16 @@ Check this in code - adding new place to folder - not appearing in side bar?
 
 ## Images
 
-https://unsplash.com/photos/W_-6PWGbYaU
+* Background image by [Rana Sawalha on Unsplash] (https://unsplash.com/@ranasawalha)
 
-https://unsplash.com/photos/3OiYMgDKJ6k
+* Background image by [Dariusz Sankowski
+on Unsplash] (https://unsplash.com/@dariuszsankowski)
 
-https://unsplash.com/photos/8s1wfA6aB-4
+* Background image by [Kira auf der Heide on Unsplash] (https://unsplash.com/@kadh)
 
-https://unsplash.com/photos/mluSdDeOksc
+* Background image by [L B on Unsplash] (https://unsplash.com/@iliketobike)
 
-https://unsplash.com/photos/HM599jibAQs
+* Background image by [Cynthia del Río
+on Unsplash] (https://unsplash.com/@luthiabags)
 
 
