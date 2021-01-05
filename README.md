@@ -57,6 +57,9 @@ You can find the project here.
 ## Approach
 
 ### Wireframes
+
+![wireframe](screenshots/Wireframe_F1.png)
+![wireframe](screenshots/Wireframe_F2.png)
 ### 
 ###
 ###
