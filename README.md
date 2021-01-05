@@ -72,15 +72,17 @@ We used a mixture of ziteboard and googledocs to outline what we wanted to achie
 
 ## Screenshots
 
-![screenshot](screenshots/1.png)
 ![screenshot](screenshots/2.png)
-![screenshot](screenshots/3.png)
-![screenshot](screenshots/4.png)
-![screenshot](screenshots/5.png)
-![screenshot](screenshots/6.png)
-![screenshot](screenshots/7.png)
+
+<img src="screenshots/1.png" alt="Home Page" width="49.5%"> <img src="screenshots/3.png" alt="Map" width="49.5%">
+<img src="screenshots/4.png" alt="Results" width="49.5%"> <img src="screenshots/5.png" alt="City" width="49.5%">
+<img src="screenshots/6.png" alt="Place" width="49.5%"> <img src="screenshots/7.png" alt="Profile" width="49.5%">
+
 ![screenshot](screenshots/8.png)
-![screenshot](screenshots/9.png)
+
+
+
+
 
 
 
@@ -210,6 +212,8 @@ class User(db.Model, BaseModel):
   def validate_passwordConfirmation(self, passwordConfirmation_plaintext):
     return bcrypt.check_passwordConfirmation_hash(self.passwordConfirmation_hash, passwordConfirmation_plaintext)
 ```
+
+<img src="screenshots/9.png" alt="Password Confirmation" width="25%"> 
 
 ## Known bugs
 
