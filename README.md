@@ -60,6 +60,9 @@ You can find the project here.
 
 ![wireframe](screenshots/Wireframe_F1.png)
 ![wireframe](screenshots/Wireframe_F2.png)
+![wireframe](screenshots/WF1.png)
+![wireframe](screenshots/WF2.png)
+
 ### 
 ###
 ###
