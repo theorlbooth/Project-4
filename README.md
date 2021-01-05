@@ -95,16 +95,10 @@ Check this in code - adding new place to folder - not appearing in side bar?
 
 ## Images
 
-* Background image by [Rana Sawalha on Unsplash] (https://unsplash.com/@ranasawalha)
-
-* Background image by [Dariusz Sankowski
-on Unsplash] (https://unsplash.com/@dariuszsankowski)
-
-* Background image by [Kira auf der Heide on Unsplash] (https://unsplash.com/@kadh)
-
-* Background image by [L B on Unsplash] (https://unsplash.com/@iliketobike)
-
-* Background image by [Cynthia del Río
-on Unsplash] (https://unsplash.com/@luthiabags)
+* Background image by [Rana Sawalha on Unsplash](https://unsplash.com/@ranasawalha)
+* Background image by [Dariusz Sankowski on Unsplash](https://unsplash.com/@dariuszsankowski)
+* Background image by [Kira auf der Heide on Unsplash](https://unsplash.com/@kadh)
+* Background image by [L B on Unsplash](https://unsplash.com/@iliketobike)
+* Background image by [Cynthia del Río on Unsplash](https://unsplash.com/@luthiabags)
 
 
