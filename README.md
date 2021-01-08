@@ -35,6 +35,8 @@ The idea was born out of a mutual love for travel and frustration with the lack 
 	- Triposo
 	- Open Cage
 
+## Contributors 
+* [Sean Fenelon](https://github.com/seanfenelon)
 
 ## Brief
 
