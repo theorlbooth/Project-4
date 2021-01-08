@@ -32,8 +32,8 @@ The idea was born out of a mutual love for travel and frustration with the lack 
 * Insominia
 * TablePlus
 * APIs
-	- Triposo
-	- Open Cage
+	- [Triposo](https://www.triposo.com/api/documentation/20201111/)
+	- [Open Cage](https://opencagedata.com/api)
 
 ## Contributors 
 * [Sean Fenelon](https://github.com/seanfenelon)
